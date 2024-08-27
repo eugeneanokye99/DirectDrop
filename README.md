@@ -18,12 +18,11 @@
     - [Running the Application](#running-the-application)
     - [Development](#development)
 7. [API Documentation](#api-documentation)
-8. [Deployment](#deployment)
-9. [Testing](#testing)
-10. [Roadmap](#roadmap)
-11. [Contributing](#contributing)
-12. [License](#license)
-13. [Acknowledgements](#acknowledgements)
+8. [Testing](#testing)
+9. [Roadmap](#roadmap)
+10. [Contributing](#contributing)
+11. [License](#license)
+12. [Acknowledgements](#acknowledgements)
 
 ---
 
