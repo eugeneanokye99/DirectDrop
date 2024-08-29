@@ -33,7 +33,7 @@ Welcome to the **Secure P2P File Sharing Application**! This project facilitates
 
 - **Decentralized Architecture:** Enables direct file sharing between peers without a central server.
 - **End-to-End Encryption:** Protects data during transmission using robust encryption methods.
-- **User Authentication:** Secure user verification with JWT and PKI.
+- **User Authentication:** Secure user verification with JWT and OAuth2 Authentication.
 - **Profile Management:** Users can manage their profiles and settings.
 - **Real-time File Transfer:** Efficient file sharing with progress tracking and notifications.
 - **Role-Based Access Control:** Manage permissions for shared files.
@@ -43,6 +43,7 @@ Welcome to the **Secure P2P File Sharing Application**! This project facilitates
 
 - **Frontend:** React.js, Shadcn UI, Redux, Axios
 - **Backend:** FastAPI, Celery, Redis, PostgreSQL
+- **Database and ORM:** PostgreSQL, SQLAlchemy
 - **Others:** Docker, Docker Compose, Nginx, GitHub Actions
 
 ## Architecture
