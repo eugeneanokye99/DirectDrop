@@ -10,7 +10,7 @@
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
         - [Backend Setup (FastAPI)](#backend-setup-fastapi)
-        - [Frontend Setup (React with Shadcn)](#frontend-setup-react-with-shadcn)
+        - [Frontend Setup (React with ChakraUI and TailwindCSS)](#frontend-setup-react-with-chakraui)
         - [Asynchronous Tasks (Celery & Redis)](#asynchronous-tasks-celery--redis)
         - [Database Setup (PostgreSQL)](#database-setup-postgresql)
         - [Environment Variables](#environment-variables)
@@ -37,18 +37,18 @@ Welcome to the **Secure P2P File Sharing Application**! This project facilitates
 - **Profile Management:** Users can manage their profiles and settings.
 - **Real-time File Transfer:** Efficient file sharing with progress tracking and notifications.
 - **Role-Based Access Control:** Manage permissions for shared files.
-- **Responsive UI:** Built with React and Shadcn for a seamless user experience across devices.
+- **Responsive UI:** Built with React and ChakraUI for a seamless user experience across devices.
 
 ## Technologies Used
 
-- **Frontend:** React.js, Shadcn UI, Redux, Axios
-- **Backend:** FastAPI, Celery, Redis, PostgreSQL
+- **Frontend:** React.js, ChakraUI, Redux, Axios
+- **Backend:** FastAPI, Celery, Redis, PostgreSQL, Postman
 - **Database and ORM:** PostgreSQL, SQLAlchemy
 - **Others:** Docker, Docker Compose, Nginx, GitHub Actions
 
 ## Architecture
 ```
-[Frontend (React + Shadcn)] <--> [FastAPI Backend] <--> [PostgreSQL Database]
+[Frontend (React + ChakraUI)] <--> [FastAPI Backend] <--> [PostgreSQL Database]
                                        |
                                        --> [Celery Workers] <--> [Redis]
 ```
@@ -96,7 +96,7 @@ Ensure you have the following installed on your system:
     alembic upgrade head
     ```
 
-#### Frontend Setup (React with Shadcn)
+#### Frontend Setup (React with ChakraUI and TailwindCSS)
 
 1. **Navigate to Frontend Directory:**
     ```bash
@@ -108,8 +108,8 @@ Ensure you have the following installed on your system:
     npm install
     ```
 
-3. **Configure Shadcn:**
-    Follow [Shadcn's documentation](https://shadcn.com/docs) to set up and customize your UI components.
+3. **Configure ChakraUI:**
+    Follow [ChakraUI's documentation](https://v2.chakra-ui.com/) to set up and customize your UI components.
 
 #### Asynchronous Tasks (Celery & Redis)
 
@@ -327,7 +327,7 @@ Please ensure your code adheres to the project's coding standards and passes all
 - [Celery](https://docs.celeryproject.org/)
 - [Redis](https://redis.io/)
 - [PostgreSQL](https://www.postgresql.org/)
-- [Shadcn UI](https://shadcn.com/)
+- [ChakraUI](https://v2.chakra-ui.com/)
 
 ---
 
