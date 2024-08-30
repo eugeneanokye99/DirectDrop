@@ -11,7 +11,7 @@ const Navbar = () => {
     <nav className="bg-blue-900 text-white shadow-md">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center">
-          <h1 className="text-xl font-bold">MyApp</h1>
+          <h1 className="text-xl font-bold">DirectDrop</h1>
         </div>
 
         <div className="hidden md:flex space-x-4">
