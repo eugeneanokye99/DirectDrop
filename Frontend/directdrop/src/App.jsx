@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {Navbar} from './components/Navbar'
 import { Button} from '@chakra-ui/react'
 import './App.css'
+import Navbar from './components/Navbar'
 
 function App() {
   
@@ -8,6 +10,7 @@ function App() {
   return (
     <div className="p-4">
       <Router>
+      <Navbar />
         <Routes>
          
         </Routes>
