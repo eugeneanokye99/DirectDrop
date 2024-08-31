@@ -90,17 +90,26 @@ Ensure you have the following installed on your system:
     ```bash
     pip install -r requirements.txt
     ```
+4. **Navigate to Backend Directory:**
+    ```bash
+    cd Backend/app
+    ```
 
-4. **Run Database Migrations:**
+5. **Run Database Migrations:**
     ```bash
     alembic upgrade head
+    ```
+    
+6. **Start the backend server with uvicorn:**
+    ```bash
+    uvicorn main:app --reload
     ```
 
 #### Frontend Setup (React with ChakraUI and TailwindCSS)
 
 1. **Navigate to Frontend Directory:**
     ```bash
-    cd frontend
+    cd Frontend/directdrop
     ```
 
 2. **Install Dependencies:**
@@ -108,8 +117,11 @@ Ensure you have the following installed on your system:
     npm install
     ```
 
-3. **Configure ChakraUI:**
-    Follow [ChakraUI's documentation](https://v2.chakra-ui.com/) to set up and customize your UI components.
+3. **Start the frontend server with:**
+    ```bash
+    npm run dev
+    ```
+    
 
 #### Asynchronous Tasks (Celery & Redis)
 
