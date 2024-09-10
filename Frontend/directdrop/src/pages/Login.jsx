@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ( loginUser ) from "../services/Api.jsx";
 import {
   Box,
   Button,
@@ -17,21 +18,21 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const toast = useToast();
 
-  const handleLogin = () => {
-    if (email === '' || password === '') {
+  const handleLogin = async () => {
+    try {
+        const data = await loginUser(email, password);
+        toast({
+          title: 'Login successful.',
+          description: "You're logged in.",
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+    } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Please fill in both fields.',
+        title: 'Login failed.',
+        description: error.response ? error.response.data.message : 'An error occurred',
         status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    } else {
-      // Handle login logic
-      toast({
-        title: 'Login successful.',
-        description: "You're logged in.",
-        status: 'success',
         duration: 5000,
         isClosable: true,
       });

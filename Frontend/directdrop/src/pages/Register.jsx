@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import ( registerUser ) from "../services/Api.jsx";
 import {
   Box,
   Button,
@@ -20,27 +21,28 @@ const Register = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const handleRegister = () => {
-    if (firstName === '' || lastName === '' || email === '' || password === '') {
-      toast({
-        title: 'Error',
-        description: 'Please fill in all the fields.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    } else {
-      // Handle registration logic
+  const handleRegister = async () => {
+    try {
+      const data = await registerUser(firstName, lastName, email, password);
       toast({
         title: 'Registration successful.',
-        description: "You're now registered.",
+        description: "You can now log in.",
         status: 'success',
         duration: 5000,
         isClosable: true,
       });
-      navigate("/");
+      // You can add redirection logic or other actions here
+    } catch (error) {
+      toast({
+        title: 'Registration failed.',
+        description: error || 'An error occurred',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
+
 
   return (
     <Box
