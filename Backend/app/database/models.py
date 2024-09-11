@@ -12,6 +12,6 @@ class User(Base):
     last_name = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), 
-        nullable=False, server_default=text('now()'))
+        nullable=False, server_default=text('CURRENT_TIMESTAMP'))
     is_verified = Column(Boolean, server_default='FALSE', nullable=False)
     is_admin = Column(Boolean, server_default='FALSE', nullable=False)
