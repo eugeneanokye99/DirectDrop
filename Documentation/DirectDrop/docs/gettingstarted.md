@@ -48,7 +48,7 @@ Ensure you have the following installed on your system:
     ```
     fastapi run dev
     ```
-7.  **Test the endpoints with 
+7.  **Test the endpoints with Postman(Optional)
 
 #### Frontend Setup (React with ChakraUI and TailwindCSS)
 
