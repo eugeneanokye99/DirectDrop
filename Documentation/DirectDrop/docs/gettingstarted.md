@@ -100,5 +100,22 @@ Ensure you have the following installed on your system:
     ```
     ```
 
+#### Environment Variables
+
+Create a `.env` file in the root directory and configure the necessary variables. You can use `.env.example` as a template.
+
+*Example `.env`:*
+
+```env
+# Backend
+DATABASE_URL=postgresql://your_db_user:your_password@localhost:5432/your_db_name
+REDIS_URL=redis://localhost:6379/0
+SECRET_KEY=your_secret_key
+CELERY_BROKER_URL=redis://localhost:6379/0
+CELERY_RESULT_BACKEND=redis://localhost:6379/0
+
+# Frontend
+REACT_APP_API_URL=http://localhost:8000/api
+```
     
 
