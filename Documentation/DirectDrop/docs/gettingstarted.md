@@ -63,7 +63,7 @@ Ensure you have the following installed on your system:
     npm install
     ```
 
-3. **Start the frontend server with:**
+3. **Start the frontend server with Vite:**
 
     ```
     npm run dev
@@ -73,12 +73,14 @@ Ensure you have the following installed on your system:
 #### Asynchronous Tasks (Celery & Redis)
 
 1. **Ensure Redis is Running:**
+ 
     
-
     ```
-    Using Docker
-    
     docker run -d -p 6379:6379 redis
+    ```
+    or 
+    ```
+    redis-cli
     ```
 
 2. **Start Celery Worker:**
