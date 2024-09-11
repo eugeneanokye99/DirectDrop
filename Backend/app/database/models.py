@@ -7,3 +7,4 @@ class User(Base):
     __tablename__ = "users"
     
     id = Clumnn(Integer, pimary_key=True, index=True)
+    first_name = Column(String, unique=True, nullable=F)
