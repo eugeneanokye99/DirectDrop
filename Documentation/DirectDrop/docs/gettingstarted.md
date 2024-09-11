@@ -43,7 +43,7 @@ Ensure you have the following installed on your system:
     alembic upgrade head
     ```
     
-6. **Start the backend server with uvicorn:**
+6. **Start the backend server with FastAPI CLI:**
 
     ```
     uvicorn main:app --reload
