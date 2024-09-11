@@ -1,0 +1,31 @@
+site_name: "DirectDrop Documentation"
+
+theme:
+  icon:
+    logo: material/library-shelves
+  name: "material"
+  
+  palette:
+
+
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - Introduction:
+      - Overview: overview.md
+      - Key Features: features.md
+  - Getting Started: getting_started.md
+  # - API Reference: api-reference.md
+  # - Examples: examples.md
+  # - FAQ: faq.md
+  # - Support: support.md
+  # - About: about.md    
