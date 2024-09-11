@@ -48,6 +48,7 @@ Ensure you have the following installed on your system:
     ```
     fastapi run dev
     ```
+7. 
 
 #### Frontend Setup (React with ChakraUI and TailwindCSS)
 
