@@ -37,6 +37,7 @@ Ensure you have the following installed on your system:
     ```
     cd Backend/app
     ```
+    
 5. **Run Database Migrations:**
 
     ```
