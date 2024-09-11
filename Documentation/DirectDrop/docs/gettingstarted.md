@@ -73,9 +73,11 @@ Ensure you have the following installed on your system:
 #### Asynchronous Tasks (Celery & Redis)
 
 1. **Ensure Redis is Running:**
+    
 
     ```
-    # Using Docker
+    Using Docker
+    
     docker run -d -p 6379:6379 redis
     ```
 
