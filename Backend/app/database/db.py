@@ -11,3 +11,6 @@ from app.core.config import settings
 SQLALCHEMY_DATABASE_URL = "sqlite:///./DirectDrop.db" 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
+
+SessionLocal = sessionmaker(autocommit=False, 
+    autoflush=False, bind=engine)
