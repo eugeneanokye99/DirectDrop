@@ -21,9 +21,14 @@ def get_db():
     try:
         yield db
     finally:
-        db.close()  
+        db.close()
+ 
+try: 
+    with engine.connect() as connection:
+        print("Database connection successful")
         
-while True:
-    try:
-        connection = psycopg2.connect(host=settings.DB_HOST,
-                                      )
+except Exception as e:
+    print("Database connection failed", {e})
+                
+
+    
