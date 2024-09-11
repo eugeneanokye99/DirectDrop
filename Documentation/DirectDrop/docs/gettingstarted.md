@@ -2,11 +2,11 @@
 
 Ensure you have the following installed on your system:
 
-- **Python 3.10+**
-- **Node.js 14+ & npm**
-- **PostgreSQL 13+**
-- **Redis 6+**
-- **Docker & Docker Compose** (optional, for containerization)
+- [Python](https://www.python.org/downloads/)
+- [**Node.js](https://nodejs.org/en/download/prebuilt-installer/current)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Redis](https://redis.io/)
+- [Docker & Docker Compose (optional, for containerization)](https://docs.docker.com/desktop/)
 
 ### Instructions for setting up locally
 
@@ -81,8 +81,8 @@ Ensure you have the following installed on your system:
 
 2. **Start Celery Worker:**
 
-    ```bash
-    celery -A your_project worker --loglevel=info
+    ```
+    celery -A your_project worker - --loglevel=info
     ```
 
     
