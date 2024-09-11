@@ -10,3 +10,5 @@ class User(Base):
     first_name = Column(String, unique=True, nullable=False)
     last_name = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
+    created_at = Column(IMESTAMP(timezone=True), 
+        nullable=False, server_default=text('now()'))
