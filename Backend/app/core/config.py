@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     # DB_PORT: str
     # DB_NAME: str
     
-    SQLALCHEMY_DATABASE_URL:str
+    SQLALCHEMY_DATABASE_URL: str
 
     class Config:
         env_file = '.env'
