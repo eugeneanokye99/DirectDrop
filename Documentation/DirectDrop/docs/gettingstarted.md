@@ -3,7 +3,7 @@
 Ensure you have the following installed on your system:
 
 - [Python](https://www.python.org/downloads/)
-- [**Node.js](https://nodejs.org/en/download/prebuilt-installer/current)
+- [Node.js](https://nodejs.org/en/download/prebuilt-installer/current)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Redis](https://redis.io/)
 - [Docker & Docker Compose (optional, for containerization)](https://docs.docker.com/desktop/)
