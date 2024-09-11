@@ -68,5 +68,20 @@ Ensure you have the following installed on your system:
     ```
     npm run dev
     ```
+
+
+#### Asynchronous Tasks (Celery & Redis)
+
+1. **Ensure Redis is Running:**
+    ```bash
+    # Using Docker
+    docker run -d -p 6379:6379 redis
+    ```
+
+2. **Start Celery Worker:**
+    ```bash
+    celery -A your_project worker --loglevel=info
+    ```
+
     
 
