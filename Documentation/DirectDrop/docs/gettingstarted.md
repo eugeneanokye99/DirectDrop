@@ -46,7 +46,7 @@ Ensure you have the following installed on your system:
 6. **Start the backend server with FastAPI CLI:**
 
     ```
-    uvicorn main:app --reload
+    fastapi run dev
     ```
 
 #### Frontend Setup (React with ChakraUI and TailwindCSS)
