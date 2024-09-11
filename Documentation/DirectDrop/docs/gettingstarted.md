@@ -51,6 +51,8 @@ Ensure you have the following installed on your system:
 7.  **View the endpoints with Postman(Optional, but recommended)
 
     ```
+    localhost:8000
+    
 
 
 #### Frontend Setup (React with ChakraUI and TailwindCSS)
