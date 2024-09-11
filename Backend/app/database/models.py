@@ -13,4 +13,4 @@ class User(Base):
     created_at = Column(IMESTAMP(timezone=True), 
         nullable=False, server_default=text('now()'))
     is_verified = Column(Boolean, default=False, nullable=False)
-    is_admin = Column(Boolean, default=True, nullable=False)
+    is_admin = Column(Boolean, default=False, nullable=False)
