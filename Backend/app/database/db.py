@@ -8,4 +8,4 @@ import time
 from psycopg2.extras import RealDictCursor
 from app.core.config import settings
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:password@localhost:5432/ecommerce"
+SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}'
