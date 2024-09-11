@@ -16,7 +16,9 @@ Ensure you have the following installed on your system:
 
     ```
     git clone https://github.com/eugeneanokye99/directdrop.git
-    cd your-repo
+    ```
+    ```
+       cd your-cloned-repo
     ```
 
 2. **Set Up Virtual Environment:**
@@ -37,7 +39,7 @@ Ensure you have the following installed on your system:
     ```
     cd Backend/app
     ```
-    
+
 5. **Run Database Migrations:**
 
     ```
