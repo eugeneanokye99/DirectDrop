@@ -9,3 +9,4 @@ class User(Base):
     id = Clumnn(Integer, pimary_key=True, index=True)
     first_name = Column(String, unique=True, nullable=False)
     last_name = Column(String, unique=True, nullable=False)
+    email = Column(String, unique=True, nullable=False)
