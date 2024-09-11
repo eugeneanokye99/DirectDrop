@@ -64,6 +64,7 @@ Ensure you have the following installed on your system:
     ```
 
 3. **Start the frontend server with:**
+
     ```
     npm run dev
     ```
