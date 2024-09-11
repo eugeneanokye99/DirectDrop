@@ -6,11 +6,11 @@ from datetime import datetime
 class User(Base):
     __tablename__ = "users"
     
-    id = Clumnn(Integer, pimary_key=True, index=True)
+    id = Column(Integer, pimary_key=True, index=True)
     first_name = Column(String, unique=True, nullable=False)
     last_name = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
-    created_at = Column(IMESTAMP(timezone=True), 
+    created_at = Column(TIMESTAMP(timezone=True), 
         nullable=False, server_default=text('now()'))
     is_verified = Column(Boolean, default=False, nullable=False)
     is_admin = Column(Boolean, default=False, nullable=False)
