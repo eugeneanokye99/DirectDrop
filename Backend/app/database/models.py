@@ -12,3 +12,4 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     created_at = Column(IMESTAMP(timezone=True), 
         nullable=False, server_default=text('now()'))
+    is_verified = Column(Boolean, default=False, nullable=False)
