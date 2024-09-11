@@ -38,11 +38,13 @@ Ensure you have the following installed on your system:
     cd Backend/app
     ```
 5. **Run Database Migrations:**
+
     ```
     alembic upgrade head
     ```
     
 6. **Start the backend server with uvicorn:**
+
     ```
     uvicorn main:app --reload
     ```
@@ -50,11 +52,13 @@ Ensure you have the following installed on your system:
 #### Frontend Setup (React with ChakraUI and TailwindCSS)
 
 1. **Navigate to Frontend Directory:**
+
     ```
     cd Frontend/directdrop
     ```
 
 2. **Install Dependencies:**
+
     ```
     npm install
     ```
