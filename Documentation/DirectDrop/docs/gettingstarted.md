@@ -98,6 +98,7 @@ Ensure you have the following installed on your system:
     ```
     celery -A your_project worker - --loglevel=info
     ```
+    ```
 
     
 
