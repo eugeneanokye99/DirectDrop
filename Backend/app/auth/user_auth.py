@@ -21,6 +21,7 @@ from app.core.config import settings
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = "HS256"
 
 
 router = APIRouter(
