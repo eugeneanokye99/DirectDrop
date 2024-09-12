@@ -13,6 +13,6 @@ import logging
 
 router = APIRouter(
     tags=["auth"]
-)
+)changes
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
