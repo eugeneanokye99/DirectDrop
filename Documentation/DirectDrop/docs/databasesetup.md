@@ -27,10 +27,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     - The `BASE_DIR` will be used to ensure the SQLite database file is created in the correct location relative to the project structure.
 3. **Database URL Configuration (`SQLALCHEMY_DATABASE_URL`)**:
     
-    ```python
-    SQLALCHEMY_DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'DirectDrop.db')}"
-    
-    ```
+```python
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'DirectDrop.db')}"
+
+```
     
     - **`sqlite:///{os.path.join(BASE_DIR, 'DirectDrop.db')}`**: This constructs the SQLite database URL. It's an absolute path pointing to the `DirectDrop.db` file located in the `BASE_DIR` directory.
     - SQLAlchemy uses this URL to connect to the SQLite database.
