@@ -44,6 +44,5 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
     
 @router.post("/login")
 async def login_user(
-    user_credentialls: OAuth2PasswordRequestForm = Depends(),
-    db : Session = Depends(get_db)
-    )
+    user_credentialls: OAuth2PasswordRequestForm = Depends(), db : Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == )
