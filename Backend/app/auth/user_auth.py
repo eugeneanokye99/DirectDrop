@@ -14,13 +14,13 @@ from sqlalchemy.orm import Session
 import logging
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer
-from app.core.con
+from app.core.config import settings
 
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-
+SECRET_KEY = settings.SECRET
 
 
 router = APIRouter(
