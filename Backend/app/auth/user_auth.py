@@ -8,6 +8,7 @@ from fastapi import (
 
 from app.database.models import User
 from app.schemas.schemaresponse import UserCreate, Token
+from app.auth.Oauth2
 from app.utils.hashing import hash
 from app.database.db import get_db
 from sqlalchemy.orm import Session
