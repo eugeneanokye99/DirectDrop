@@ -8,7 +8,7 @@ from fastapi import (
 
 from app.database.models import User
 from app.schemas.schemaresponse import UserCreate, Token
-from app.auth.Oauth2
+from app.auth.Oauth2 import create_access_token, verify_access_token
 from app.utils.hashing import hash
 from app.database.db import get_db
 from sqlalchemy.orm import Session
@@ -58,7 +58,7 @@ async def login_user(
             detail="Invalid credentials"
         )
         
-    if not verify(user_credentials.password, user.password):
+    if not verify_access_token(user_credentials.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Invalid credentials"
