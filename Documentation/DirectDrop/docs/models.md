@@ -34,15 +34,15 @@ from datetime import datetime
 
 - **`TIMESTAMP`** is used to store time-based information in the database, often used for columns like `created_at` that track when a row is created.
 
-#5.**`from datetime import datetime`**
+5.**`from datetime import datetime`**
 
 - **`datetime`** is a built-in Python library used to manipulate date and time objects. Although not directly used in the model shown, it's typically used for setting or manipulating date values.
 
 ---
 
-2.**Explanation of the `User` Model**
+### Explanation of the `User` Model
 
-```
+```python
 
 class User(Base):
     __tablename__ = "users"
