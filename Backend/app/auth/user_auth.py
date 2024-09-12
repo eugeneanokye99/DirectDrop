@@ -8,6 +8,7 @@ from fastapi import (
 
 from app.database.models import User
 from app.schemas import UserCreate
+from app.utils.hashing import
 from app.database.db import get_db
 from sqlalchemy.orm import Session
 import logging
