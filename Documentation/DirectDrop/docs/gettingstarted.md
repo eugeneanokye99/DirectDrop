@@ -107,7 +107,7 @@ Create a `.env` file in the root directory and configure the necessary variables
 *Example `.env`:*
 
 ```
-# Backend
+
 DATABASE_URL=postgresql://your_db_user:your_password@localhost:5432/your_db_name
 REDIS_URL=redis://localhost:6379/0
 SECRET_KEY=your_secret_key
