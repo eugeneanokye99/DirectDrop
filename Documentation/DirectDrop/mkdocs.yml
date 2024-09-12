@@ -25,6 +25,7 @@ nav:
       - Key Features: features.md
   - Getting Started: 
       - Instructions: gettingstarted.md
+  - Database Setup : databasesetup.md
       
   # - API Reference: api-reference.md
   # - Examples: examples.md
