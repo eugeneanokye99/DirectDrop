@@ -40,6 +40,7 @@ nav:
   - Getting Started: 
       - Instructions: gettingstarted.md
   - Database Setup : databasesetup.md
+  - Creating the Models: models.md
       
   # - API Reference: api-reference.md
   # - Examples: examples.md
