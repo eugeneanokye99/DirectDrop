@@ -42,7 +42,7 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
         "message": "User registration successful"
     }
     
-@router.post("/login")
+@router.post("/login", response_model="Token")
 async def login_user(
     user_credentials: OAuth2PasswordRequestForm = Depends(), db : Session = Depends(get_db)):
     user = db.query(User).filter(User.email == user_credentials.username).first()   
@@ -62,5 +62,6 @@ async def login_user(
     access_token = create_access_token(data={"sub": user.id})    
 
     return {
-        
+        "access_token": access_token,
+        "token_type": "bearer"  
     }
