@@ -79,14 +79,7 @@ def get_db():
         - **`yield db`**: This makes the session available within the context of the function where it’s used (i.e., within a request).
         - **`finally: db.close()`**: Ensures that the session is closed when the request is finished. This prevents database connections from being left open.
 
-### Workflow Summary:
-
-1. **Database Engine**: The engine is created using `create_engine()`. It handles the database connection.
-2. **Session**: A `SessionLocal` factory is defined to create sessions that will interact with the database.
-3. **Base Class**: `Base` is used to define models. Every model will inherit from this class and be mapped to a table in the database.
-4. **Dependency Injection**: The `get_db()` function is used to inject a database session into FastAPI route handlers, managing session lifecycle (opening and closing the session).
-
-### Documentation Links:
+### Reference Links:
 
 - [SQLAlchemy Documentation](https://docs.sqlalchemy.org/en/14/core/engines.html)
 - [FastAPI - SQL (Relational) Databases](https://fastapi.tiangolo.com/tutorial/sql-databases/)
