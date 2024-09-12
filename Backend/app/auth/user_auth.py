@@ -12,7 +12,15 @@ from app.utils.hashing import hash
 from app.database.db import get_db
 from sqlalchemy.orm import Session
 import logging
-from jose import JWTError
+from jose import JWTError, jwt
+from fastapi.security import OAuth2PasswordBearer
+
+
+
+oauth2_scheme = OAu
+
+
+
 
 router = APIRouter(
     tags=["auth"]
