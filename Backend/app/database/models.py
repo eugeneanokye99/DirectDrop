@@ -17,3 +17,4 @@ class User(Base):
         nullable=False, server_default=text('CURRENT_TIMESTAMP'))
     is_verified = Column(Boolean, server_default='FALSE', nullable=False)
     is_admin = Column(Boolean, server_default='FALSE', nullable=False)
+    
