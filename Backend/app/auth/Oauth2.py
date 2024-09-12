@@ -11,4 +11,5 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 
-def create_access_token()
+def create_access_token(data:dict):
+    to_encode = data.copy()
