@@ -44,11 +44,11 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread
     - **`create_engine()`**: This function creates a new SQLAlchemy engine instance. The engine is responsible for managing the database connection.
     - **`connect_args={"check_same_thread": False}`**: This argument is specific to SQLite, which has a threading limitation (it doesn't allow connections to be used in different threads by default). Setting `check_same_thread` to `False` allows the connection to be shared across threads, which is necessary when using SQLite with FastAPI in async mode.
 5. **Session Factory (`SessionLocal`)**:
-    
-    ```
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    
-    ```
+
+```
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+```
     
     - **`sessionmaker()`**: This is a factory that generates new `Session` objects. These `Session` objects are used to interact with the database.
         - **`autocommit=False`**: Disables automatic transaction commits. You must explicitly call `commit()` when you're ready to save changes to the database.
