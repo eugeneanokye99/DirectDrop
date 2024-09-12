@@ -46,3 +46,9 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
 async def login_user(
     user_credentials: OAuth2PasswordRequestForm = Depends(), db : Session = Depends(get_db)):
     user = db.query(User).filter(User.email == user_credentials.username).first()   
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Invalid credentials"
+        )
