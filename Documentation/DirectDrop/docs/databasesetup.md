@@ -36,10 +36,10 @@ SQLALCHEMY_DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'DirectDrop.db')}"
     - SQLAlchemy uses this URL to connect to the SQLite database.
 4. **Creating the SQLAlchemy Engine**:
     
-    ```python
-    engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
-    
-    ```
+```
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+
+```
     
     - **`create_engine()`**: This function creates a new SQLAlchemy engine instance. The engine is responsible for managing the database connection.
     - **`connect_args={"check_same_thread": False}`**: This argument is specific to SQLite, which has a threading limitation (it doesn't allow connections to be used in different threads by default). Setting `check_same_thread` to `False` allows the connection to be shared across threads, which is necessary when using SQLite with FastAPI in async mode.
