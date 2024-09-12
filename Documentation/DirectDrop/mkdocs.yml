@@ -23,9 +23,14 @@ nav:
   - Introduction:
       - Overview: overview.md
       - Key Features: features.md
-  - Getting Started: gettingstarted.md
+  - Getting Started: 
+      - Instructions: gettingstarted.md
+      
   # - API Reference: api-reference.md
   # - Examples: examples.md
   # - FAQ: faq.md
   # - Support: support.md
   # - About: about.md    
+
+
+  
