@@ -18,10 +18,10 @@ import os
 - **`os`**: Used to manipulate file paths for database URL configuration.
 2. **Getting the Base Directory (`BASE_DIR`)**:
     
-    ```python
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    
-    ```
+```
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+```
     
     - This line calculates the base directory of the project. `os.path.dirname()` moves up one directory from the current file's location.
     - The `BASE_DIR` will be used to ensure the SQLite database file is created in the correct location relative to the project structure.
