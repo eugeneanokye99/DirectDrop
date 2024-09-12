@@ -9,7 +9,7 @@ from fastapi import (
 from app.database.models import User
 from app.schemas.schemaresponse import UserCreate, Token
 from app.auth.Oauth2 import create_access_token, verify_access_token
-from app.utils.hashering import hasher, verify_password
+from app.utils.hashing import hasher, verify_password
 from app.database.db import get_db
 from sqlalchemy.orm import Session
 import logging
@@ -30,11 +30,11 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
             detail="User already exist"
         )
     
-    hashered_password = hasher(user.password)
+    hashed_password = hasher(user.password)
     
     new_user = User(**user.dict())
     
-    new_user.password = hashered_password
+    new_user.password = hashed_password
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
