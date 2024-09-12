@@ -60,3 +60,7 @@ async def login_user(
         )
         
     access_token = create_access_token(data={"sub": user.id})    
+
+    return {
+        
+    }
