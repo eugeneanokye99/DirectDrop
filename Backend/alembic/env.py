@@ -1,5 +1,5 @@
 from logging.config import fileConfig
-
+from app.database.db import SQLALCHEMY_DATABASE_URL
 from app.database.models import Base
 from app.core.config import settings
 
@@ -9,14 +9,13 @@ from sqlalchemy import pool
 from alembic import context
 
 
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'DirectDrop.db')}"
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 config.set_main_option(
     'sqlalchemy.url', SQLALCHEMY_DATABASE_URL
-"
 
 )
 
