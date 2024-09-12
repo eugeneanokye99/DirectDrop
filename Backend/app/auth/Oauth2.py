@@ -27,6 +27,7 @@ def verify_access_token(token:str, credentials_exception):
         id: int = payload.get("user_id")
         if id is None:
             raise credentials_exception
+        token_data = TokenData
     except JWTError:
         raise credentials_exception
     return id
