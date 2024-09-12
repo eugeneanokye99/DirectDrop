@@ -64,15 +64,15 @@ Base = declarative_base()
     - **`declarative_base()`**: This function returns a base class that your ORM models will inherit from. All models (tables) defined in your application will be subclasses of this `Base` class. It acts as the foundation for model declarations, linking the Python classes to database tables.
 7. **Dependency for Database Session (`get_db`)**:
     
-    ```python
-    def get_db():
-        db = SessionLocal()
-        try:
-            yield db
-        finally:
-            db.close()
-    
-    ```
+```
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+```
     
     - **`get_db()`**: This is a dependency function that provides a database session for use in your FastAPI route handlers.
         - **`SessionLocal()`**: Creates a new session object for interacting with the database.
