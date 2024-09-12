@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 - The `BASE_DIR` will be used to ensure the SQLite database file is created in the correct location relative to the project structure.
 
 
-3. **Database URL Configuration (`SQLALCHEMY_DATABASE_URL`)**:
+3.**Database URL Configuration (`SQLALCHEMY_DATABASE_URL`)**:
 
 ```
 SQLALCHEMY_DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'DirectDrop.db')}"
@@ -39,7 +39,7 @@ SQLALCHEMY_DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'DirectDrop.db')}"
 - SQLAlchemy uses this URL to connect to the SQLite database.
 
 
-4. **Creating the SQLAlchemy Engine**:
+4.**Creating the SQLAlchemy Engine**:
 
 ```
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
@@ -50,7 +50,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread
 - **`connect_args={"check_same_thread": False}`**: This argument is specific to SQLite, which has a threading limitation (it doesn't allow connections to be used in different threads by default). Setting `check_same_thread` to `False` allows the connection to be shared across threads, which is necessary when using SQLite with FastAPI in async mode.
 
 
-5. **Session Factory (`SessionLocal`)**:
+5.**Session Factory (`SessionLocal`)**:
 
 ```
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -63,7 +63,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 - **`bind=engine`**: Binds the session factory to the `engine`, ensuring that all sessions created by this factory will use the same database connection.
 
 
-6. **Base Class for Models (`Base`)**:
+6.**Base Class for Models (`Base`)**:
 
 ```
 Base = declarative_base()
@@ -73,7 +73,7 @@ Base = declarative_base()
 - **`declarative_base()`**: This function returns a base class that your ORM models will inherit from. All models (tables) defined in your application will be subclasses of this `Base` class. It acts as the foundation for model declarations, linking the Python classes to database tables.
 
 
-7. **Dependency for Database Session (`get_db`)**:
+7.**Dependency for Database Session (`get_db`)**:
 
 ```
 def get_db():
