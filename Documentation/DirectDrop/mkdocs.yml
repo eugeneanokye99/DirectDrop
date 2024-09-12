@@ -1,0 +1,52 @@
+site_name: "DirectDrop Documentation"
+
+theme:
+  icon:
+    logo: material/library-shelves
+  name: "material"
+  features:
+    - navigation.footer
+    - navigation.instant
+    - navigation.top
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate 
+
+  markdown_extensions:
+    - codehilite
+    - toc
+  
+  palette:
+
+
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - Introduction:
+      - Overview: overview.md
+      - Key Features: features.md
+  - Getting Started: 
+      - Instructions: gettingstarted.md
+  - Database Setup : databasesetup.md
+      
+  # - API Reference: api-reference.md
+  # - Examples: examples.md
+  # - FAQ: faq.md
+  # - Support: support.md
+  # - About: about.md    
+
+
+
+
