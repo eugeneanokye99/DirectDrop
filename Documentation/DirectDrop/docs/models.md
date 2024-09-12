@@ -1,4 +1,4 @@
-# Databse Models
+# Database Models
 
 ### **Imports**
 
@@ -83,6 +83,6 @@ class User(Base):
 
 8.**`is_verified = Column(Boolean, server_default='FALSE', nullable=False)`**:
     - Stores whether the user is verified. By default, it is set to `FALSE`, meaning that when a user is created, they are not verified.
-    
+
 9.**`is_admin = Column(Boolean, server_default='FALSE', nullable=False)`**:
     - Stores whether the user has admin privileges. By default, it is also set to `FALSE`.
