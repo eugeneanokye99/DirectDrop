@@ -25,6 +25,8 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE  = 60
 
 
+
+
 router = APIRouter(
     tags=["auth"]
 )
