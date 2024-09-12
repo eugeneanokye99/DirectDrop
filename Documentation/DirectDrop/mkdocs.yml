@@ -4,6 +4,20 @@ theme:
   icon:
     logo: material/library-shelves
   name: "material"
+  features:
+    - navigation.footer
+    - navigation.instant
+    - navigation.top
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate 
+
+  markdown_extensions:
+    - codehilite
+    - toc
   
   palette:
 

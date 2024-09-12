@@ -99,7 +99,7 @@ Ensure you have the following installed on your system:
     celery -A your_project worker - --loglevel=info
     ```
     ```
-
+c
 #### Environment Variables
 
 Create a `.env` file in the root directory and configure the necessary variables. You can use `.env.example` as a template.
