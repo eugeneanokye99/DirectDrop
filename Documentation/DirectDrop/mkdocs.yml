@@ -16,8 +16,12 @@ theme:
     - content.code.annotate 
 
   markdown_extensions:
-    - codehilite
-    - toc
+    - codehilite  # Enables syntax highlighting
+    - pymdownx.highlight
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences
+    
   
   palette:
 
