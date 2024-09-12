@@ -13,6 +13,8 @@ from app.database.db import get_db
 from sqlalchemy.orm import Session
 import logging
 
+from fastapi.security.oauth2 import OAuth2PasswordRequestForm
+
 router = APIRouter(
     tags=["auth"]
 )
@@ -40,3 +42,5 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
         "message": "User registration successful"
     }
     
+@router.post("/login")
+async def login_user(user_credentialls:)
