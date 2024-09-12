@@ -12,7 +12,8 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 config.set_main_option(
-    'sqlalchemy.url', "sqlite:///./DirectDrop.db"
+    'sqlalchemy.url', "SQLALCHEMY_DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'DirectDrop.db')}
+"
 
 )
 
