@@ -1,7 +1,7 @@
 
 ### Explanation
 
-1. Imports
+1.**Imports**
 ```
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -17,7 +17,7 @@ import os
 - **`os`**: Used to manipulate file paths for database URL configuration.
 
 
-2. The Base Directory
+2.**The Base Directory**
 
 ```
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
