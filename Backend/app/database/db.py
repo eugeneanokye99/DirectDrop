@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from app.core.config import ss
+from app.core.config import settings
 
 
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./DirectDrop.db" 
+SQLALCHEMY_DATABASE_URL = settings.
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 
