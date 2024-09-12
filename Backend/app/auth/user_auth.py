@@ -27,9 +27,10 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
             detail="User already exist"
         )
     
-    hashed_password = hash(user.password)
+    
     
     new_user = User(**user.dict())
+    hashed_password = hash(user.password)
     
     new_user.password = hashed_password
     db.add(new_user)
