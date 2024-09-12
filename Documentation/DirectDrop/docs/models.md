@@ -42,7 +42,7 @@ from datetime import datetime
 
 ### Explanation of the `User` Model
 
-```python
+```
 
 class User(Base):
     __tablename__ = "users"
