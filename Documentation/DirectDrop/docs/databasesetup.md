@@ -1,8 +1,7 @@
 
 ### Explanation
 
-1. **Imports**:
-
+1. Imports
 ```
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -18,7 +17,7 @@ import os
 - **`os`**: Used to manipulate file paths for database URL configuration.
 
 
-2. **Getting the Base Directory (`BASE_DIR`)**:
+2. The Base Directory
 
 ```
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,6 +26,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 - This line checks the base directory of the project. `os.path.dirname()` moves up one directory from the current file's location.
 - The `BASE_DIR` will be used to ensure the SQLite database file is created in the correct location relative to the project structure.
+
+
 3. **Database URL Configuration (`SQLALCHEMY_DATABASE_URL`)**:
 
 ```
