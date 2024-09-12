@@ -45,7 +45,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread
     - **`connect_args={"check_same_thread": False}`**: This argument is specific to SQLite, which has a threading limitation (it doesn't allow connections to be used in different threads by default). Setting `check_same_thread` to `False` allows the connection to be shared across threads, which is necessary when using SQLite with FastAPI in async mode.
 5. **Session Factory (`SessionLocal`)**:
     
-    ```python
+    ```
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     
     ```
