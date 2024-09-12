@@ -30,4 +30,4 @@ def verify_access_token(token:str, credentials_exception):
         token_data = TokenData(id=id)
     except JWTError:
         raise credentials_exception
-    return id
+    return token_data
