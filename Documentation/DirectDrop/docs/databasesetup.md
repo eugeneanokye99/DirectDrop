@@ -56,10 +56,10 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
         - **`bind=engine`**: Binds the session factory to the `engine`, ensuring that all sessions created by this factory will use the same database connection.
 6. **Base Class for Models (`Base`)**:
     
-    ```python
-    Base = declarative_base()
-    
-    ```
+```
+Base = declarative_base()
+
+```
     
     - **`declarative_base()`**: This function returns a base class that your ORM models will inherit from. All models (tables) defined in your application will be subclasses of this `Base` class. It acts as the foundation for model declarations, linking the Python classes to database tables.
 7. **Dependency for Database Session (`get_db`)**:
