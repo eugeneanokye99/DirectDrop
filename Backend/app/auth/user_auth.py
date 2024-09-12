@@ -7,6 +7,7 @@ from fastapi import (
     BackgroundTasks)
 
 from app.database.models import User
+from app.schemas impport UserCreate
 from app.database.db import get_db
 from sqlalchemy.orm import Session
 import logging
