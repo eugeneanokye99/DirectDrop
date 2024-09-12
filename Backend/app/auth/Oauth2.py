@@ -24,7 +24,7 @@ def create_access_token(data:dict):
 def verify_access_token(token:str, credentials_exception):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
+        id: int = payload.get("sub")
         if username is None:
             raise credentials_exception
     except JWTError:
