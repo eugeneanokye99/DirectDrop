@@ -7,3 +7,4 @@ from app.core.config import settings
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = "HS256"
