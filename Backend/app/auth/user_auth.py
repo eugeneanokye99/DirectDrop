@@ -17,7 +17,7 @@ router = APIRouter(
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register_user(user:UserCreater, db: Session = Depends(get_db)):
+async def register_user(user:UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
     if existing_user:
         raise HTTPException(
