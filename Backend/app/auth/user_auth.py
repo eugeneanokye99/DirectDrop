@@ -26,12 +26,13 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
             status_code=status.HTTP_400_BAD_REQUEST, 
             detail="User already exist"
         )
-    password = user.password
-    hashed_password = hash(password)
+    
+    hashed_password = hash(user.password)
     
     
         
     new_user = User(**user.dict())
+    
     new_user.password = hashed_password
     db.add(new_user)
     db.commit()
