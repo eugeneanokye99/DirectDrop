@@ -39,3 +39,4 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
     return{
         "message": "User registration successful"
     }
+    
