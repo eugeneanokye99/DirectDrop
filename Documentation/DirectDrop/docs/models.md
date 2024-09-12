@@ -40,7 +40,7 @@ from datetime import datetime
 
 ---
 
-### The`User` Model
+### The `User` Model
 
 ```
 
