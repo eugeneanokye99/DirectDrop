@@ -16,7 +16,7 @@ theme:
     - content.code.annotate 
 
   markdown_extensions:
-    - codehilite  # Enables syntax highlighting
+    - codehilite  
     - pymdownx.highlight
     - pymdownx.inlinehilite
     - pymdownx.snippets
