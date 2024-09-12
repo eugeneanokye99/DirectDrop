@@ -1,2 +1,2 @@
 from pydantic import BaseModel, EmailStr
-from typing iomport List
+from typing import List
