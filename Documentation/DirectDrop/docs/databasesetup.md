@@ -90,7 +90,7 @@ finally:
     - **`yield db`**: This makes the session available within the context of the function where it’s used (i.e., within a request).
     - **`finally: db.close()`**: Ensures that the session is closed when the request is finished. This prevents database connections from being left open.
 
-### Reference Links:
+### Reference Links
 
 - [SQLAlchemy Documentation](https://docs.sqlalchemy.org/en/14/core/engines.html)
 - [FastAPI - SQL (Relational) Databases](https://fastapi.tiangolo.com/tutorial/sql-databases/)
