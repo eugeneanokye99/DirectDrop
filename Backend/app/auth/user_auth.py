@@ -26,3 +26,5 @@ async def register_user(user:UserCreater, db: Session = Depends(get_db)):
         )
         
     new_user = User(**user(dict))
+    db.add(new_user)
+    db.commit()
