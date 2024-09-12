@@ -32,6 +32,11 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
     
         
     new_user = User(**user.dict())
+    new_user.password = hashed_password
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+    
+    return{
+        "message": "User registration successful"
+    }
