@@ -59,3 +59,4 @@ async def login_user(
             detail="Invalid credentials"
         )
         
+    access_token = create_access_token(data={"sub": user.id})    
