@@ -29,8 +29,6 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
     
     hashed_password = hash(user.password)
     
-    
-        
     new_user = User(**user.dict())
     
     new_user.password = hashed_password
