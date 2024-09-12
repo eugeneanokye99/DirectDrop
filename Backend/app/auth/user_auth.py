@@ -53,4 +53,9 @@ async def login_user(
             detail="Invalid credentials"
         )
         
-    
+    if not verify(user_credentials.password, user.password):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Invalid credentials"
+        )
+        
