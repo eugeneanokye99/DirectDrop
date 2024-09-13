@@ -1,7 +1,7 @@
 # Diving into the `main.py` in FastAPI Backend
 
 1. **`FastAPI`:**
-    - A modern, fast (high-performance) web framework for building APIs with Python 3.7+ based on standard Python type hints.
+    - A modern, fast and high-performance web framework for building APIs with Python 3.7+ based on standard Python type hints.
 2. **`user_auth`:**
     - This module contains authentication-related routes. `user_auth.router` adds the `login` and `register` routes that handle user authentication
     and authorization.
