@@ -21,7 +21,7 @@
 4. **`app = FastAPI()`:**
     - Initializes the FastAPI app instance. This is the main application object that defines your API's behavior.
 5. **`app.include_router(user_auth.router)`:**
-    - This includes the routes defined in `user_auth.router` (presumably, authentication routes such as login, register, etc.) in the main FastAPI app. The routes will be accessible under the `app`.
+    - This includes the routes defined in `user_auth.router` (authentication routes for login and register) in the main FastAPI app. The routes will be accessible under the `app`.
 6. **`@app.get('/')`:**
     - This is a route decorator that defines a GET endpoint at the root URL (`/`). When users visit the base URL (e.g., `http://localhost:8000/`), this route will return a welcome message.
 7. **`def root() [For Demoonstration Purposes]:`:**
