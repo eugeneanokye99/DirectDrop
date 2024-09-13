@@ -5,12 +5,14 @@ Alembic is a lightweight database migration tool used with SQLAlchemy to track c
 
 ### Set up for Alembic to keep track on your changes
 
-If you do not have Alembic installed or skipped the requirements.txt by some chance, Run this :
+1. If you do not have Alembic installed or skipped the requirements.txt by some chance, Run this :
 
 ```python
 
-pip installl alembic
+pip install alembic
 
 ```
+
+
 
 
