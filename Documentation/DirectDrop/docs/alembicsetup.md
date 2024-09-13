@@ -12,7 +12,7 @@ Alembic is a lightweight database migration tool used with SQLAlchemy to track c
 pip install alembic
 
 ```
-
+2. 
 
 
 
