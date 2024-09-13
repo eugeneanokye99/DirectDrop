@@ -12,7 +12,7 @@ Alembic is a lightweight database migration tool used with SQLAlchemy to track c
 pip install alembic
 
 ```
-2. 
+2. Run `alembic upgrade head` to upgrade the migration changes to the latest changes
 
 
 
