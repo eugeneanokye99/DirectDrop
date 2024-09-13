@@ -24,7 +24,7 @@
     - This includes the routes defined in `user_auth.router` (presumably, authentication routes such as login, register, etc.) in the main FastAPI app. The routes will be accessible under the `app`.
 6. **`@app.get('/')`:**
     - This is a route decorator that defines a GET endpoint at the root URL (`/`). When users visit the base URL (e.g., `http://localhost:8000/`), this route will return a welcome message.
-7. **`def root():`:**
+7. **`def root() [For Demoonstration Purposes]:`:**
     - This is the function that handles requests to the root URL. It returns a JSON object with a message about the app's upcoming release.
 
     
