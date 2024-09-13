@@ -102,9 +102,10 @@ Ensure you have the following installed on your system:
 c
 #### Environment Variables
 
-Create a `.env` file in the root directory and configure the necessary variables. You can use `.env.example` as a template.
+Create a `.env` file in the root directory and configure the necessary variables. You can use `.env` as a template.
 
-*Example `.env`:*
+
+*Variables used in this project in the `.env` file are given below:*
 
 ```
 
