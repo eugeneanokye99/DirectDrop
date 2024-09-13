@@ -46,6 +46,7 @@ nav:
   - Diving Into The Backend: divingthebackend.md
   - Database Setup : databasesetup.md
   - Creating the Models: models.md
+  - Tracking the changes with Alembic: alembicsetup.md
       
   # - API Reference: api-reference.md
   # - Examples: examples.md
