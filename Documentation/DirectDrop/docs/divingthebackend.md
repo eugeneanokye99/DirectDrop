@@ -5,7 +5,7 @@
 2. **`user_auth`:**
     - This module is assumed to contain authentication-related routes. `user_auth.router` adds a collection of routes (such as login, register, etc.) that handle user authentication.
 3. **`engine`:**
-    - This refers to a database engine, set up using SQLAlchemy or another ORM (Object-Relational Mapper). It connects your app to a database.
+    - This refers to a database engine, set up using SQLAlchemy or another ORM (Object-Relational Mapper). It connects your app to the database.
 
 ---
 
