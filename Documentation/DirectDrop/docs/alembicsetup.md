@@ -14,5 +14,7 @@ pip install alembic
 ```
 2. Run `alembic upgrade head` to upgrade the migration changes to the latest changes
 
+3. 
+
 
 
