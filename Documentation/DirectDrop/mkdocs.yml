@@ -43,6 +43,7 @@ nav:
       - Key Features: features.md
   - Getting Started: 
       - Instructions: gettingstarted.md
+  - Diving Into The Backend: divingthebackend.md
   - Database Setup : databasesetup.md
   - Creating the Models: models.md
       
