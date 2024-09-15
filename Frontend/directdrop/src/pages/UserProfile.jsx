@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Flex, Grid, Heading, Image, Stack, Text, Icon, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Heading, Image, Stack, Text, Icon, useColorModeValue, Divider } from '@chakra-ui/react';
 import { PencilIcon, ShareIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
 
 const UserProfile = () => {
@@ -25,158 +25,157 @@ const UserProfile = () => {
   const statusColor = userInfo.status === 'Online' ? 'green.400' : 'red.400';
 
   return (
-      <Box
-      
-        bgGradient="linear(to-r, white, #eaeaea, #dcdcdc)"
-      
-      
-      >
-                  <Box maxW="6xl" mx="auto" p="8">
-          {/* Profile Section */}
-          <Flex direction="column" align="center" mb="8">
-            <Image
-              src={userInfo.profilePicture}
-              alt="Profile"
-              borderRadius="full"
-              boxSize="150px"
-              mb="4"
-              shadow="md"
-              border="4px solid"
-              borderColor={useColorModeValue('gray.800')}
-            />
-            <Heading size="lg" color='grey.500'>{userInfo.displayName}</Heading>
-            <Text fontSize="lg" color="grey" mt="1">
-              @{userInfo.username} &bull;{' '}
-              <Text as="span" color={statusColor} fontWeight="bold">
-                {userInfo.status}
-              </Text>
-            </Text>
-            <Text color="gray.600" mt="2">
-              Reputation: {userInfo.reputation}
-            </Text>
-          </Flex>
-
-          <Box
-            bg={useColorModeValue('gray.800')}
+    <Box bgGradient="linear(to-r, white, #eaeaea, #dcdcdc)">
+      <Box maxW="6xl" mx="auto" p="8">
+        {/* Profile Section */}
+        <Flex direction="column" align="center" mb="8">
+          <Image
+            src={userInfo.profilePicture}
+            alt="Profile"
+            borderRadius="full"
+            boxSize="150px"
+            mb="4"
             shadow="md"
-            rounded="lg"
-            p="6"
-            mb="8"
-            maxW="lg"
-            mx="auto"
-          >
-            <Flex justify="space-between" align="center" mb="4">
-              <Heading size="md" color="white">User Information</Heading>
-              <Button size="sm" leftIcon={<PencilSquareIcon />} colorScheme="green">
-                Edit Profile
-              </Button>
+            border="4px solid"
+            borderColor={useColorModeValue('gray.800')}
+          />
+          <Heading size="lg" color='grey.500'>{userInfo.displayName}</Heading>
+          <Text fontSize="lg" color="grey" mt="1">
+            @{userInfo.username} &bull;{' '}
+            <Text as="span" color={statusColor} fontWeight="bold">
+              {userInfo.status}
+            </Text>
+          </Text>
+          <Text color="gray.600" mt="2">
+            Reputation: {userInfo.reputation}
+          </Text>
+        </Flex>
+
+        <Box
+          bg={useColorModeValue('gray.800')}
+          shadow="md"
+          rounded="lg"
+          p="6"
+          mb="8"
+          maxW="lg"
+          mx="auto"
+        >
+          <Flex justify="space-between" align="center" mb="4">
+            <Heading size="md" color="white">User Information</Heading>
+            <Button size="sm" leftIcon={<PencilSquareIcon />} colorScheme="green">
+              Edit Profile
+            </Button>
+          </Flex>
+          <Stack spacing="4">
+            <Flex>
+              <Text color='grey'>{userInfo.email}</Text>
             </Flex>
-            <Stack spacing="4">
-              <Flex>
-                <Text color='grey'>{userInfo.email}</Text>
-              </Flex>
-              <Flex>
-                <Text color='grey'>{userInfo.bio}</Text>
-              </Flex>
-              <Text color='grey'>{userInfo.registrationDate}</Text>
-            </Stack>
+            <Flex>
+              <Text color='grey'>{userInfo.bio}</Text>
+            </Flex>
+            <Text color='grey'>{userInfo.registrationDate}</Text>
+          </Stack>
+        </Box>
+
+        <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap="6">
+          <Box
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            borderColor={useColorModeValue('gray.800')}
+            shadow="md"
+            transition="all 0.2s"
+            _hover={{ shadow: 'lg' }}
+          >
+            <Flex
+              bg={useColorModeValue('gray.800')}
+              color="white" p="4" align="center">
+              <Icon as={PencilIcon} boxSize="20px" mr="2" />
+              <Text fontWeight="bold" fontSize="lg">
+                Uploaded Files
+              </Text>
+            </Flex>
+            <Box p="4">
+              {userInfo.uploadedFiles.map((file, index) => (
+                <Box key={index} mb="4">
+                  <Text fontWeight="semibold" textAlign="center" mb="1">
+                    {file.name}
+                  </Text>
+                  <Flex justify="space-between">
+                    <Text color="gray.600" fontWeight="semibold">Size</Text>
+                    <Text color="blue.600" fontWeight="bold">{file.size}</Text>
+                  </Flex>
+                  <Flex justify="space-between">
+                    <Text color="gray.600" fontWeight="semibold">Date</Text>
+                    <Text color="blue.600" fontWeight="bold">{file.date}</Text>
+                  </Flex>
+                  <Flex justify="space-between">
+                    <Text color="gray.600" fontWeight="semibold">Downloads</Text>
+                    <Text color="blue.600" fontWeight="bold">{file.downloads}</Text>
+                  </Flex>
+                  <Flex justify="space-between">
+                    <Text color="gray.600" fontWeight="semibold">Status</Text>
+                    <Text color="blue.600" fontWeight="bold">{file.status}</Text>
+                  </Flex>
+                  {/* Horizontal Divider */}
+                  {index < userInfo.uploadedFiles.length - 1 && (
+                    <Divider my="4" borderColor="gray.300" />
+                  )}
+                </Box>
+              ))}
+            </Box>
           </Box>
 
-      
-          <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap="6">
-        
-            <Box
-              borderWidth="1px"
-              borderRadius="lg"
-              overflow="hidden"
-              borderColor={useColorModeValue('gray.800')}
-              shadow="md"
-              transition="all 0.2s"
-              _hover={{ shadow: 'lg' }}
-            >
-              <Flex 
-               bg={useColorModeValue('gray.800')}
+          <Box
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            shadow="md"
+            transition="all 0.2s"
+            borderColor={useColorModeValue('gray.800')}
+            _hover={{ shadow: 'lg' }}
+          >
+            <Flex
+              bg={useColorModeValue('gray.800')}
               color="white" p="4" align="center">
-                <Icon as={PencilIcon} boxSize="20px" mr="2" />
-                <Text fontWeight="bold" fontSize="lg">
-                  Uploaded Files
-                </Text>
-              </Flex>
-              <Box p="4">
-                {userInfo.uploadedFiles.map((file, index) => (
-                  <Box key={index} mb="4">
-                    <Text fontWeight="semibold" textAlign="center" mb="1">
-                      {file.name}
-                    </Text>
-                    <Flex justify="space-between">
-                      <Text color="gray.600" fontWeight="semibold">Size</Text>
-                      <Text color="blue.600" fontWeight="bold">{file.size}</Text>
-                    </Flex>
-                    <Flex justify="space-between">
-                      <Text color="gray.600" fontWeight="semibold">Date</Text>
-                      <Text color="blue.600" fontWeight="bold">{file.date}</Text>
-                    </Flex>
-                    <Flex justify="space-between">
-                      <Text color="gray.600" fontWeight="semibold">Downloads</Text>
-                      <Text color="blue.600" fontWeight="bold">{file.downloads}</Text>
-                    </Flex>
-                    <Flex justify="space-between">
-                      <Text color="gray.600" fontWeight="semibold">Status</Text>
-                      <Text color="blue.600" fontWeight="bold">{file.status}</Text>
-                    </Flex>
-                  </Box>
-                ))}
-              </Box>
+              <Icon as={ShareIcon} boxSize="20px" mr="2" />
+              <Text fontWeight="bold" fontSize="lg">
+                Shared With Me
+              </Text>
+            </Flex>
+            <Box p="4">
+              {userInfo.sharedWithMe.map((file, index) => (
+                <Box key={index} mb="4">
+                  <Text fontWeight="semibold" textAlign="center" mb="1">
+                    {file.name}
+                  </Text>
+                  <Flex justify="space-between">
+                    <Text color="gray.600" fontWeight="semibold">Size</Text>
+                    <Text color="blue.600" fontWeight="bold">{file.size}</Text>
+                  </Flex>
+                  <Flex justify="space-between">
+                    <Text color="gray.600" fontWeight="semibold">Date</Text>
+                    <Text color="blue.600" fontWeight="bold">{file.date}</Text>
+                  </Flex>
+                  <Flex justify="space-between">
+                    <Text color="gray.600" fontWeight="semibold">From</Text>
+                    <Text color="blue.600" fontWeight="bold">{file.from}</Text>
+                  </Flex>
+                  <Flex justify="space-between">
+                    <Text color="gray.600" fontWeight="semibold">Status</Text>
+                    <Text color="blue.600" fontWeight="bold">{file.status}</Text>
+                  </Flex>
+                  {/* Horizontal Divider */}
+                  {index < userInfo.sharedWithMe.length - 1 && (
+                    <Divider my="4" borderColor="gray.300" />
+                  )}
+                </Box>
+              ))}
             </Box>
-
-            
-            <Box
-              borderWidth="1px"
-              borderRadius="lg"
-              overflow="hidden"
-              shadow="md"
-              transition="all 0.2s"
-              borderColor={useColorModeValue('gray.800')}
-              _hover={{ shadow: 'lg' }}
-            >
-              <Flex
-               bg={useColorModeValue('gray.800')}
-               color="white" p="4" align="center">
-                <Icon as={ShareIcon} boxSize="20px" mr="2" />
-
-                <Text fontWeight="bold" fontSize="lg">
-                  Shared With Me
-                </Text>
-              </Flex>
-              <Box p="4">
-                {userInfo.sharedWithMe.map((file, index) => (
-                  <Box key={index} mb="4">
-                    <Text fontWeight="semibold" textAlign="center" mb="1">
-                      {file.name}
-                    </Text>
-                    <Flex justify="space-between">
-                      <Text color="gray.600" fontWeight="semibold">Size</Text>
-                      <Text color="blue.600" fontWeight="bold">{file.size}</Text>
-                    </Flex>
-                    <Flex justify="space-between">
-                      <Text color="gray.600" fontWeight="semibold">Date</Text>
-                      <Text color="blue.600" fontWeight="bold">{file.date}</Text>
-                    </Flex>
-                    <Flex justify="space-between">
-                      <Text color="gray.600" fontWeight="semibold">From</Text>
-                      <Text color="blue.600" fontWeight="bold">{file.from}</Text>
-                    </Flex>
-                    <Flex justify="space-between">
-                      <Text color="gray.600" fontWeight="semibold">Status</Text>
-                      <Text color="blue.600" fontWeight="bold">{file.status}</Text>
-                    </Flex>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          </Grid>
-        </Box>
+          </Box>
+        </Grid>
       </Box>
+    </Box>
   );
 };
 
