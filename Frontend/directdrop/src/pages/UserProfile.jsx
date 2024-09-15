@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box, Button, Flex, Grid, Heading, Image, Stack, Text, IconButton, useColorModeValue } from '@chakra-ui/react';
 import { PencilIcon, ShareIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
 
 const UserProfile = () => {
@@ -21,128 +22,150 @@ const UserProfile = () => {
     ],
   };
 
-  const statusColor = userInfo.status === 'Online' ? 'text-green-500' : 'text-red-500';
+  const statusColor = userInfo.status === 'Online' ? 'green.400' : 'red.400';
 
   return (
-    <div className="max-w-6xl mx-auto p-8">
- 
-      <div className="text-center mb-8">
-        <img
+    <Box maxW="6xl" mx="auto" p="8">
+      {/* Profile Section */}
+      <Flex direction="column" align="center" mb="8">
+        <Image
           src={userInfo.profilePicture}
           alt="Profile"
-          className="w-32 h-32 rounded-full mx-auto mb-4 shadow-md border-4 border-gray-200"
+          borderRadius="full"
+          boxSize="150px"
+          mb="4"
+          shadow="md"
+          border="4px solid"
+          borderColor={useColorModeValue('gray.200', 'gray.700')}
         />
-        <h1 className="text-3xl font-bold">{userInfo.displayName}</h1>
-        <p className="text-lg text-gray-500">
+        <Heading size="lg">{userInfo.displayName}</Heading>
+        <Text fontSize="lg" color="gray.500" mt="1">
           @{userInfo.username} &bull;{' '}
-          <span className={`font-semibold ${statusColor}`}>{userInfo.status}</span>
-        </p>
-        <p className="text-gray-600 mt-2">Reputation: {userInfo.reputation}</p>
-      </div>
+          <Text as="span" color={statusColor} fontWeight="bold">
+            {userInfo.status}
+          </Text>
+        </Text>
+        <Text color="gray.600" mt="2">
+          Reputation: {userInfo.reputation}
+        </Text>
+      </Flex>
 
-  
-      <div className="bg-slate-900 text-white text-sm shadow-md rounded-lg p-6 mb-8 mx-auto" style={{ maxWidth: '500px' }}>
-        <div className="flex justify-between text items-center mb-4">
-          <h2 className="text-2xl font-bold">User Information</h2>
-          <button className="flex items-center text-blue-500 hover:text-blue-700">
-            <PencilSquareIcon className="w-5 h-5 mr-1" />
-            <span>Edit Profile</span>
-          </button>
-        </div>
-        <div className="space-y-2">
-          <div className="flex space-x-3 text-white">
-            <span className="font-semibold ">Email</span>
-            <span>{userInfo.email}</span>
-          </div>
-          <div className="flex space-x-3 text-white">
-            <span className="font-semibold">Bio:</span>
-            <span>{userInfo.bio}</span>
-          </div>
-          <div className="flex text-white">
-            <span>{userInfo.registrationDate}</span>
-          </div>
-        </div>
-      </div>
+      {/* User Information */}
+      <Box
+        bg={useColorModeValue('gray.50', 'gray.900')}
+        shadow="md"
+        rounded="lg"
+        p="6"
+        mb="8"
+        maxW="lg"
+        mx="auto"
+      >
+        <Flex justify="space-between" align="center" mb="4">
+          <Heading size="md">User Information</Heading>
+          <Button size="sm" leftIcon={<PencilSquareIcon />} colorScheme="blue">
+            Edit Profile
+          </Button>
+        </Flex>
+        <Stack spacing="4">
+          <Flex justify="space-between">
+            <Text fontWeight="semibold">Email:</Text>
+            <Text>{userInfo.email}</Text>
+          </Flex>
+          <Flex justify="space-between">
+            <Text fontWeight="semibold">Bio:</Text>
+            <Text>{userInfo.bio}</Text>
+          </Flex>
+          <Text>{userInfo.registrationDate}</Text>
+        </Stack>
+      </Box>
 
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Uploaded Files and Shared Files */}
+      <Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap="6">
+        {/* Uploaded Files */}
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          shadow="md"
+          transition="all 0.2s"
+          _hover={{ shadow: 'lg' }}
+        >
+          <Flex bg="red.500" color="white" p="4" align="center">
+            <IconButton icon={<PencilIcon />} aria-label="Uploaded Files" mr="2" />
+            <Text fontWeight="bold" fontSize="lg">
+              Uploaded Files
+            </Text>
+          </Flex>
+          <Box p="4">
+            {userInfo.uploadedFiles.map((file, index) => (
+              <Box key={index} mb="4">
+                <Text fontWeight="semibold" textAlign="center" mb="1">
+                  {file.name}
+                </Text>
+                <Flex justify="space-between">
+                  <Text color="gray.600" fontWeight="semibold">Size</Text>
+                  <Text color="blue.600" fontWeight="bold">{file.size}</Text>
+                </Flex>
+                <Flex justify="space-between">
+                  <Text color="gray.600" fontWeight="semibold">Date</Text>
+                  <Text color="blue.600" fontWeight="bold">{file.date}</Text>
+                </Flex>
+                <Flex justify="space-between">
+                  <Text color="gray.600" fontWeight="semibold">Downloads</Text>
+                  <Text color="blue.600" fontWeight="bold">{file.downloads}</Text>
+                </Flex>
+                <Flex justify="space-between">
+                  <Text color="gray.600" fontWeight="semibold">Status</Text>
+                  <Text color="blue.600" fontWeight="bold">{file.status}</Text>
+                </Flex>
+              </Box>
+            ))}
+          </Box>
+        </Box>
 
-        <div className="border rounded-lg shadow-md
-         bg-white hover:shadow-xl 
-         transition-shadow duration-300 ease-in-out">
-          <div
-            className="flex items-center p-4 text-white rounded-t-lg"
-            style={{ backgroundColor: '#f56565' }}
-          >
-            <PencilIcon className="w-6 h-6 mr-2" />
-            <span className="text-lg font-semibold">Uploaded Files</span>
-          </div>
-          <div className="p-4 text-sm">
-            <ul className='p-4'>
-              {userInfo.uploadedFiles.map((file, index) => (
-                <li key={index} className="mb-4 pb-2 border-b last:border-b-0">
-                  <div className="font-semibold text-center mb-1">{file.name}</div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-bold">Size</span>
-                    <span  className='text-blue-600 font-semibold'>{file.size}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-bold">Date</span>
-                    <span  className='text-blue-600 font-semibold'>{file.date}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-bold">Downloads</span>
-                    <span  className='text-blue-600 font-semibold'>{file.downloads}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-bold">Status</span>
-                    <span className='text-blue-600 font-semibold'>{file.status}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-       
-        <div className="border rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <div
-            className="flex items-center p-4 text-white rounded-t-lg"
-            style={{ backgroundColor: '#228B22' }}
-          >
-            <ShareIcon className="w-6 h-6 mr-2" />
-            <span className="text-lg font-semibold">Shared With Me</span>
-          </div>
-          <div className="p-4 text-sm">
-            <ul className='p-4'>
-              {userInfo.sharedWithMe.map((file, index) => (
-                <li key={index} className="mb-4 pb-2 border-b last:border-b-0">
-                  <div className="font-semibold text-center">{file.name}</div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-bold">Size</span>
-                    <span className='text-blue-600 font-semibold'>{file.size}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-bold">Date</span>
-                    <span className='text-blue-600 font-semibold'>{file.date}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-bold">From</span>
-                    <span className='text-blue-600 font-semibold'>{file.from}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 font-bold">Status</span>
-                    <span className='text-blue-600 font-semibold'>{file.status}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      
-    </div>
+        {/* Shared Files */}
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          shadow="md"
+          transition="all 0.2s"
+          _hover={{ shadow: 'lg' }}
+        >
+          <Flex bg="green.700" color="white" p="4" align="center">
+            <IconButton icon={<ShareIcon />} aria-label="Shared Files" mr="2" />
+            <Text fontWeight="bold" fontSize="lg">
+              Shared With Me
+            </Text>
+          </Flex>
+          <Box p="4">
+            {userInfo.sharedWithMe.map((file, index) => (
+              <Box key={index} mb="4">
+                <Text fontWeight="semibold" textAlign="center" mb="1">
+                  {file.name}
+                </Text>
+                <Flex justify="space-between">
+                  <Text color="gray.600" fontWeight="semibold">Size</Text>
+                  <Text color="blue.600" fontWeight="bold">{file.size}</Text>
+                </Flex>
+                <Flex justify="space-between">
+                  <Text color="gray.600" fontWeight="semibold">Date</Text>
+                  <Text color="blue.600" fontWeight="bold">{file.date}</Text>
+                </Flex>
+                <Flex justify="space-between">
+                  <Text color="gray.600" fontWeight="semibold">From</Text>
+                  <Text color="blue.600" fontWeight="bold">{file.from}</Text>
+                </Flex>
+                <Flex justify="space-between">
+                  <Text color="gray.600" fontWeight="semibold">Status</Text>
+                  <Text color="blue.600" fontWeight="bold">{file.status}</Text>
+                </Flex>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      </Grid>
+    </Box>
   );
 };
 
