@@ -16,8 +16,12 @@ theme:
     - content.code.annotate 
 
   markdown_extensions:
-    - codehilite
-    - toc
+    - codehilite  
+    - pymdownx.highlight
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences
+    
   
   palette:
 
@@ -39,7 +43,10 @@ nav:
       - Key Features: features.md
   - Getting Started: 
       - Instructions: gettingstarted.md
+  - Diving Into The Backend: divingthebackend.md
   - Database Setup : databasesetup.md
+  - Creating the Models: models.md
+  - Tracking the changes with Alembic: alembicsetup.md
       
   # - API Reference: api-reference.md
   # - Examples: examples.md

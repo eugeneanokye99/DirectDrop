@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ( registerUser ) from "../services/Api.jsx";
+
+import {registerUser} from '../services/Api.jsx';
+
 import {
   Box,
   Button,
@@ -51,7 +53,7 @@ const Register = () => {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      bg="gray.50"
+     bgGradient="linear(to-r, white, #eaeaea, #dcdcdc)"
     >
       <Box
         w="400px"
