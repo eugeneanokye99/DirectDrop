@@ -1,12 +1,15 @@
 import React from 'react';
 import { Box, Button, Flex, Grid, Heading, Image, Stack, Text, Icon, useColorModeValue, Divider } from '@chakra-ui/react';
-import { PencilIcon, ShareIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
+import { PencilIcon, ShareIcon, DocumentIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
+import { motion } from 'framer-motion';
+
+const MotionButton = motion(Button);
 
 const UserProfile = () => {
   const userInfo = {
-    username: 'JohnDoe123',
-    displayName: 'John Doe',
-    email: 'johndoe@example.com',
+    username: 'eugeneanokye',
+    displayName: 'Eugene Anokye',
+    email: 'eugene@anokye.com',
     profilePicture: 'https://via.placeholder.com/150',
     status: 'Online',
     reputation: '4.8 / 5',
@@ -27,7 +30,7 @@ const UserProfile = () => {
   return (
     <Box bgGradient="linear(to-r, white, #eaeaea, #dcdcdc)">
       <Box maxW="6xl" mx="auto" p="8">
-        {/* Profile Section */}
+       
         <Flex direction="column" align="center" mb="8">
           <Image
             src={userInfo.profilePicture}
@@ -46,9 +49,20 @@ const UserProfile = () => {
               {userInfo.status}
             </Text>
           </Text>
-          <Text color="gray.600" mt="2">
+          <Box
+             bg={useColorModeValue('yellow.600')}    
+             borderRadius='lg'
+              paddingTop='1'
+              paddingBottom='2'
+              paddingRight='5'
+              paddingLeft='5'
+              marginTop='2'
+          >
+          <Text fontSize='small' color="white" mt="2">
             Reputation: {userInfo.reputation}
           </Text>
+          </Box>
+         
         </Flex>
 
         <Box
@@ -60,13 +74,13 @@ const UserProfile = () => {
           maxW="lg"
           mx="auto"
         >
-          <Flex justify="space-between" align="center" mb="4">
-            <Heading size="md" color="white">User Information</Heading>
-            <Button size="sm" leftIcon={<PencilSquareIcon />} colorScheme="green">
+          <Flex direction="column" align="center" mb="4">
+            <Heading fontSize='lg' color="white">User Information</Heading>
+            <Button size='sm' leftIcon={<Icon as={PencilIcon} boxSize="4" />} colorScheme="green" mt="4">
               Edit Profile
             </Button>
           </Flex>
-          <Stack spacing="4">
+          <Stack fontSize='sm' spacing="4">
             <Flex>
               <Text color='grey'>{userInfo.email}</Text>
             </Flex>
@@ -90,12 +104,12 @@ const UserProfile = () => {
             <Flex
               bg={useColorModeValue('gray.800')}
               color="white" p="4" align="center">
-              <Icon as={PencilIcon} boxSize="20px" mr="2" />
+              <Icon as={DocumentIcon} boxSize="20px" mr="2" />
               <Text fontWeight="bold" fontSize="lg">
                 Uploaded Files
               </Text>
             </Flex>
-            <Box p="4">
+            <Box fontSize="sm" p="4">
               {userInfo.uploadedFiles.map((file, index) => (
                 <Box key={index} mb="4">
                   <Text fontWeight="semibold" textAlign="center" mb="1">
@@ -115,14 +129,35 @@ const UserProfile = () => {
                   </Flex>
                   <Flex justify="space-between">
                     <Text color="gray.600" fontWeight="semibold">Status</Text>
-                    <Text color="blue.600" fontWeight="bold">{file.status}</Text>
+                    <Box
+                    bg={useColorModeValue('orange.800')}
+                    padding='2'
+                    borderRadius='lg'
+
+                    >
+                    <Text color="white" fontSize='smaller' fontWeight="bold">{file.status}</Text>
+
+
+                    </Box>
                   </Flex>
-                  {/* Horizontal Divider */}
                   {index < userInfo.uploadedFiles.length - 1 && (
-                    <Divider my="4" borderColor="gray.300" />
+                    <Divider my="4" borderColor="black" />
                   )}
                 </Box>
               ))}
+
+                <Flex justify="center" p="4">
+                  <MotionButton
+                    variant="link"
+                    rightIcon={<Icon as= {ArrowRightIcon} boxSize='4' />}
+                     color="grey.700"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    See more
+                  </MotionButton>
+                </Flex>
             </Box>
           </Box>
 
@@ -143,7 +178,7 @@ const UserProfile = () => {
                 Shared With Me
               </Text>
             </Flex>
-            <Box p="4">
+            <Box fontSize="sm" p="4">
               {userInfo.sharedWithMe.map((file, index) => (
                 <Box key={index} mb="4">
                   <Text fontWeight="semibold" textAlign="center" mb="1">
@@ -162,15 +197,35 @@ const UserProfile = () => {
                     <Text color="blue.600" fontWeight="bold">{file.from}</Text>
                   </Flex>
                   <Flex justify="space-between">
+                    
                     <Text color="gray.600" fontWeight="semibold">Status</Text>
-                    <Text color="blue.600" fontWeight="bold">{file.status}</Text>
+                    <Box
+                     bg={useColorModeValue('orange.800')}
+                      padding='2'
+                      borderRadius='lg'
+                    
+                    >
+                    <Text color="white" fontSize='smaller' fontWeight="bold">{file.status}</Text>
+                    </Box>
                   </Flex>
-                  {/* Horizontal Divider */}
+                 
                   {index < userInfo.sharedWithMe.length - 1 && (
-                    <Divider my="4" borderColor="gray.300" />
+                    <Divider my="4" borderColor="black" />
                   )}
                 </Box>
               ))}
+                 <Flex justify="center" p="4">
+                  <MotionButton
+                    variant="link"
+                    rightIcon={<Icon as= {ArrowRightIcon} boxSize='4' />}
+                    color="grey.700"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    See more
+                  </MotionButton>
+                </Flex>
             </Box>
           </Box>
         </Grid>
