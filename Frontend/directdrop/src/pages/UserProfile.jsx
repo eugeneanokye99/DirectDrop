@@ -133,11 +133,8 @@ const UserProfile = () => {
                     bg={useColorModeValue('orange.800')}
                     padding='2'
                     borderRadius='lg'
-
                     >
                     <Text color="white" fontSize='smaller' fontWeight="bold">{file.status}</Text>
-
-
                     </Box>
                   </Flex>
                   {index < userInfo.uploadedFiles.length - 1 && (
