@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ( loginUser ) from "../services/Api.jsx";
+import {loginUser} from '../services/Api.jsx';
+
 import {
   Box,
   Button,
@@ -33,7 +34,7 @@ const Login = () => {
         title: 'Login failed.',
         description: error.response ? error.response.data.message : 'An error occurred',
         status: 'error',
-        duration: 5000,
+        duration: 2000,
         isClosable: true,
       });
     }
@@ -46,7 +47,7 @@ const Login = () => {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      bg="gray.50"
+      bgGradient="linear(to-r, white, #eaeaea, #dcdcdc)"
     >
       <Box
         w="400px"
