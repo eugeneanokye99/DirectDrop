@@ -3,7 +3,7 @@ import { Box, Button, Flex, Grid, Heading, Image, Stack, Text, Icon, useColorMod
 import { PencilIcon, ShareIcon, DocumentIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
 
-const MotionButton = motion.create(Button);
+const MotionButton = motion(Button);
 
 const UserProfile = () => {
   const userInfo = {

@@ -7,14 +7,13 @@ from fastapi import (
     BackgroundTasks)
 
 from app.database.models import User
-from app.schemas.schemaresponse import UserCreate, Token
+from app.schemas.schemaresponse import UserCreate, Token, UserLogin
 from app.auth.Oauth2 import create_access_token, verify_access_token
 from app.utils.hashing import hasher, verify_password
 from app.database.db import get_db
 from sqlalchemy.orm import Session
 import logging
 
-from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 
 router = APIRouter(
     tags=["auth"]
@@ -45,10 +44,10 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
     
 @router.post("/login", response_model=Token)
 async def login_user(
-    user_credentials: OAuth2PasswordRequestForm = Depends(), 
+    user_credentials: UserLogin, 
     db : Session = Depends(get_db)
     ):
-    user = db.query(User).filter(User.email == user_credentials.username).first()   
+    user = db.query(User).filter(User.email == user_credentials.email).first()   
     
     if not user:
         raise HTTPException(

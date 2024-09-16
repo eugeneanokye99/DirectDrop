@@ -1,8 +1,9 @@
-// api.js
 import axios from 'axios';
 
+const apiURL = 'http://127.0.0.1:8000/'
+
 const api = axios.create({
-  baseURL: 'https://your-backend-api-url.com', 
+  baseURL: apiURL, 
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -20,11 +21,11 @@ export const loginUser = async (email, password) => {
 };
 
 // Register request function
-export const registerUser = async (firstName, lastName, email, password) => {
+export const registerUser = async (first_name, last_name, email, password) => {
     try {
       const response = await api.post('/register', {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         email,
         password,
       });
