@@ -23,12 +23,15 @@ const Login = () => {
     try {
         const data = await loginUser(email, password);
         toast({
-          title: 'Login successful.',
+          title: data.message,
           description: "You're logged in.",
           status: 'success',
           duration: 5000,
           isClosable: true,
         });
+        if(data.message == 'Login successful'){
+          navigate('/home');
+        }
     } catch (error) {
       toast({
         title: 'Login failed.',

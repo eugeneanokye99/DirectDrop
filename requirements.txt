@@ -3,3 +3,4 @@ uvicorn
 celery
 redis
 python-jose
+sqlalchemy

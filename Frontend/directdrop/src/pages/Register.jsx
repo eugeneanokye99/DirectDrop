@@ -27,13 +27,16 @@ const Register = () => {
     try {
       const data = await registerUser(firstName, lastName, email, password);
       toast({
-        title: 'Registration successful.',
+        title: data.message,
         description: "You can now log in.",
         status: 'success',
         duration: 5000,
         isClosable: true,
       });
       // You can add redirection logic or other actions here
+      if(data.message == 'User registration successful'){
+        navigate('/');
+      }
     } catch (error) {
       toast({
         title: 'Registration failed.',
