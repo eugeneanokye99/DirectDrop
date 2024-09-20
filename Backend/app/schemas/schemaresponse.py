@@ -10,8 +10,10 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+    # message : str
     
 class Token(BaseModel):
     access_token: str
     token_type: str 
+    message: str
     
