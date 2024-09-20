@@ -24,6 +24,10 @@ class UserUpdate(BaseModel):
     bio: str
     email: str
 
+class UserUpdateResponse(BaseModel):
+    message: str
+    user: UserUpdate
+
 
 class UserResponse(BaseModel):
     id: int
@@ -33,3 +37,4 @@ class UserResponse(BaseModel):
     created_at: datetime
     is_verified: bool
     is_admin: bool
+    bio: str

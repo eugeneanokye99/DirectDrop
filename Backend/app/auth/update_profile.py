@@ -8,7 +8,7 @@ from fastapi import (
     Header
 )
 from app.database.models import User
-from app.schemas.schemaresponse import UserCreate, Token, UserLogin, UserResponse, UserUpdate
+from app.schemas.schemaresponse import UserCreate, Token, UserLogin, UserResponse, UserUpdate, UserUpdateResponse
 from app.auth.Oauth2 import create_access_token, verify_access_token, get_user_id_from_token
 from app.utils.hashing import hasher, verify_password
 from app.database.db import get_db
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["auth"])
 
-@router.put('/updateprofile', response_model=UserUpdate)
+@router.put('/updateprofile', response_model=UserUpdateResponse)
 def update_user(
     user_update: UserUpdate, 
     authorization: str = Header(...),  # Extract token from the Authorization header
@@ -29,6 +29,12 @@ def update_user(
     # Extract the token from the 'Authorization' header
     token = authorization.replace("Bearer ", "")
     logger.info(f"Received token: {token}")
+    
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
 
     # Decode token to get user ID
     user_id = get_user_id_from_token(token)
@@ -52,6 +58,11 @@ def update_user(
     db.commit()
     db.refresh(user)
     return {
-        "message" : "User update successful",
-        "user": user,
+        "message": "User update successful",
+        "user": {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "bio": user.bio,
+            "email": user.email
+        }
     }

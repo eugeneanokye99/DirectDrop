@@ -58,7 +58,7 @@ const UserProfile = () => {
       const data = await updateUserData(accessToken, firstName, lastName, bio, email);
       toast({
         title: data.message,
-        description: "You have successfully updatedyour profile",
+        description: "You have successfully updated your profile",
         status: 'success',
         duration: 5000,
         isClosable: true,

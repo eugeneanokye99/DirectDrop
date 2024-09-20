@@ -52,12 +52,12 @@ export const registerUser = async (first_name, last_name, email, bio, password) 
 
   
 // Function to update user data request
-export const updateUserData = async (token, firstName, lastName, bio, email) => {
+export const updateUserData = async (token, first_name, last_name, bio, email) => {
   try {
     const response = await api.put('/updateprofile', 
       {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         bio,
         email
       },
