@@ -4,16 +4,18 @@ from fastapi import (
     HTTPException, 
     status, 
     APIRouter, 
-    BackgroundTasks)
+    BackgroundTasks,
+    Header)
 
 from app.database.models import User
-from app.schemas.schemaresponse import UserCreate, Token, UserLogin
-from app.auth.Oauth2 import create_access_token, verify_access_token
+from app.schemas.schemaresponse import UserCreate, Token, UserLogin, UserResponse
+from app.auth.Oauth2 import create_access_token, verify_access_token, get_user_id_from_token, oauth2_scheme
 from app.utils.hashing import hasher, verify_password
 from app.database.db import get_db
 from sqlalchemy.orm import Session
 import logging
 
+logger = logging.getLogger(__name__)
 
 router = APIRouter(
     tags=["auth"]
@@ -34,6 +36,8 @@ async def register_user(user:UserCreate, db: Session = Depends(get_db)):
     new_user = User(**user.dict())
     
     new_user.password = hashed_password
+    if not new_user.bio:
+        new_user.bio = "I am new here!"
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -61,10 +65,42 @@ async def login_user(
             detail="Invalid credentials"
         )
         
-    access_token = create_access_token(data={"sub": user.id})    
+    access_token = create_access_token(data={"user_id": user.id})    
 
     return {
         "message" : "Login successful",
         "access_token": access_token,
         "token_type": "bearer"  
     }
+
+
+@router.get("/user", response_model=UserResponse)
+async def user_data(
+    authorization: str = Header(...),  # Extract token from the Authorization header
+    db: Session = Depends(get_db)
+):
+    # Extract the token from the 'Authorization' header
+    token = authorization.replace("Bearer ", "")
+    logger.info(f"Received token: {token}")
+
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    token_data = get_user_id_from_token(token)
+    
+    user_id = token_data
+
+    # Fetch user from the database
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        logger.error(f"User with ID {user_id} not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
+
+    return user

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { registerUser } from '../services/api';
+import { registerUser } from '../services/Api';
 
 import {
   Box,
@@ -25,7 +25,8 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      const data = await registerUser(firstName, lastName, email, password);
+      const bio = "I a new here!";
+      const data = await registerUser(firstName, lastName, email, bio, password);
       toast({
         title: data.message,
         description: "You can now log in.",

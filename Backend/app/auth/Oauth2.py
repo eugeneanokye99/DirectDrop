@@ -32,3 +32,14 @@ def verify_access_token(token:str, credentials_exception):
         raise credentials_exception
     return token_data
 
+def get_user_id_from_token(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str = payload.get("user_id")  
+        if user_id is None:
+            raise ValueError("User ID not found in token")
+        return user_id
+    except JWTError:
+        raise ValueError("Invalid token")
+
+

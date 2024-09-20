@@ -14,6 +14,7 @@ import './index.css'
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import UserProfile  from './pages/UserProfile.jsx';
+import Home  from './pages/Home.jsx';
 import theme from './theme.js'
 
 const router = createBrowserRouter([
@@ -36,6 +37,13 @@ const router = createBrowserRouter([
   {
     path: "/userprofile",
     element: <UserProfile />,
+    errorElement: <ErrorPage />,
+    
+  },
+  {
+    path: "/home",
+    element: <Home />,
+    errorElement: <ErrorPage />,
     
   },
 ]);
