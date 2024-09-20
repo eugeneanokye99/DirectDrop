@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { loginUser } from '../services/api';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../services/Api';
 
 import {
   Box,
@@ -18,6 +18,15 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const toast = useToast();
+  const navigate = useNavigate();
+
+    // Check if access token is already stored and redirect to home
+    useEffect(() => {
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+        navigate('/home');
+      }
+    }, [navigate]);
 
   const handleLogin = async () => {
     try {
@@ -30,6 +39,10 @@ const Login = () => {
           isClosable: true,
         });
         if(data.message == 'Login successful'){
+          // Store the access token in local storage
+          localStorage.setItem('accessToken', data.access_token);
+        
+          // Navigate to the home page
           navigate('/home');
         }
     } catch (error) {

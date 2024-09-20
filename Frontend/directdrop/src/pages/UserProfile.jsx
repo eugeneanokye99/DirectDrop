@@ -1,20 +1,87 @@
-import React from 'react';
-import { Box, Button, Flex, Grid, Heading, Image, Stack, Text, Icon, useColorModeValue, Divider } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import {
+  Box, Button, Flex, Grid, Heading, Image, Stack, Text, Icon, useColorModeValue, Divider,
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
+  Input, FormControl, FormLabel, useDisclosure, useToast
+} from '@chakra-ui/react';
 import { PencilIcon, ShareIcon, DocumentIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
+import { fetchUserData, updateUserData } from '../services/Api';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MotionButton = motion(Button);
 
 const UserProfile = () => {
+  const [accessToken, setAccessToken] = useState('');
+  const [user, setUser] = useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      setAccessToken(token);
+    } else {
+      navigate('/login');
+    }
+
+    fetchData(token);
+  }, [navigate]);
+
+  const fetchData = async (token) => {
+    try {
+      const data = await fetchUserData(token);
+      setUser(data);
+      setFormData({
+        firstName: data.first_name ,
+        lastName: data.last_name,
+        email: data.email,
+        bio: data.bio,
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Something went wrong';
+      console.error('Fetching user data failed:', errorMessage);
+      alert('Fetching user data Failed: ' + errorMessage);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFormSubmit = async () => {
+    try {
+      const { firstName, lastName, email, bio } = formData;
+      const data = await updateUserData(accessToken, firstName, lastName, bio, email);
+      toast({
+        title: data.message,
+        description: "You have successfully updatedyour profile",
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      if(data.message == 'User update successful'){
+        onClose();
+      }
+  } catch (error) {
+    toast({
+      title: 'Update failed.',
+      description: error.response ? error.response.data.message : 'An error occurred',
+      status: 'error',
+      duration: 2000,
+      isClosable: true,
+    });
+  }
+  };
+
   const userInfo = {
-    username: 'eugeneanokye',
-    displayName: 'Eugene Anokye',
     email: 'eugene@anokye.com',
-    profilePicture: 'https://via.placeholder.com/150',
     status: 'Online',
     reputation: '4.8 / 5',
     bio: 'Software Engineer passionate about full-stack development and AI.',
-    registrationDate: 'Joined on January 10, 2021',
     uploadedFiles: [
       { name: 'Project Report.pdf', size: '1.2MB', date: '2024-09-12', downloads: 12, status: 'Public' },
       { name: 'Vacation Photos.zip', size: '45MB', date: '2024-08-22', downloads: 5, status: 'Private' },
@@ -30,7 +97,6 @@ const UserProfile = () => {
   return (
     <Box bgGradient="linear(to-r, white, #eaeaea, #dcdcdc)">
       <Box maxW="6xl" mx="auto" p="8">
-       
         <Flex direction="column" align="center" mb="8">
           <Image
             src={userInfo.profilePicture}
@@ -42,9 +108,9 @@ const UserProfile = () => {
             border="4px solid"
             borderColor={useColorModeValue('gray.800')}
           />
-          <Heading size="lg" color='grey.500'>{userInfo.displayName}</Heading>
+          <Heading size="lg" color='grey.500'>{user.first_name}  {user.last_name}</Heading>
           <Text fontSize="lg" color="grey" mt="1">
-            @{userInfo.username} &bull;{' '}
+          {user.email} &bull;{' '}
             <Text as="span" color={statusColor} fontWeight="bold">
               {userInfo.status}
             </Text>
@@ -65,6 +131,55 @@ const UserProfile = () => {
          
         </Flex>
 
+        {/* Edit Profile Modal */}
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Edit Profile</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl>
+                <FormLabel>First Name</FormLabel>
+                <Input
+                  name="firstName"
+                  value={formData.firstName || ''}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Last Name</FormLabel>
+                <Input
+                  name="lastName"
+                  value={formData.lastName || ''}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  name="email"
+                  value={formData.email || ''}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Bio</FormLabel>
+                <Input
+                  name="bio"
+                  value={formData.bio || ''}
+                  onChange={handleInputChange}
+                />
+              </FormControl>
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={handleFormSubmit}>
+                Save
+              </Button>
+              <Button variant="ghost" onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
         <Box
           bg={useColorModeValue('gray.800')}
           shadow="md"
@@ -76,18 +191,18 @@ const UserProfile = () => {
         >
           <Flex direction="column" align="center" mb="4">
             <Heading fontSize='lg' color="white">User Information</Heading>
-            <Button size='sm' leftIcon={<Icon as={PencilIcon} boxSize="4" />} colorScheme="green" mt="4">
+            <Button size='sm' leftIcon={<Icon as={PencilIcon} boxSize="4" />} colorScheme="green" mt="4" onClick={onOpen}>
               Edit Profile
             </Button>
           </Flex>
           <Stack fontSize='sm' spacing="4">
             <Flex>
-              <Text color='grey'>{userInfo.email}</Text>
+              <Text color='grey'>{user.email}</Text>
             </Flex>
             <Flex>
-              <Text color='grey'>{userInfo.bio}</Text>
+              <Text color='grey'>{user.bio}</Text>
             </Flex>
-            <Text color='grey'>{userInfo.registrationDate}</Text>
+            <Text color='grey'>Joined on {user.created_at}</Text>
           </Stack>
         </Box>
 

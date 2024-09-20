@@ -21,12 +21,13 @@ export const loginUser = async (email, password) => {
 };
 
 // Register request function
-export const registerUser = async (first_name, last_name, email, password) => {
+export const registerUser = async (first_name, last_name, email, bio, password) => {
     try {
       const response = await api.post('/register', {
         first_name,
         last_name,
         email,
+        bio,
         password,
       });
       return response.data;  // Return the response data
@@ -34,5 +35,45 @@ export const registerUser = async (first_name, last_name, email, password) => {
       throw error.response ? error.response.data : error.message;
     }
   };
+
+  // Function to fetch user data request
+  export const fetchUserData = async (token) => {
+    try {
+      const response = await api.get('/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response ? error.response.data : error.message;
+    }
+  };
+
+  
+// Function to update user data request
+export const updateUserData = async (token, firstName, lastName, bio, email) => {
+  try {
+    const response = await api.put('/updateprofile', 
+      {
+        firstName,
+        lastName,
+        bio,
+        email
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};
+
+  
 
 export default api;
