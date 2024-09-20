@@ -19,3 +19,8 @@ class User(Base):
     is_verified = Column(Boolean, server_default='FALSE', nullable=False)
     is_admin = Column(Boolean, server_default='FALSE', nullable=False)
     
+def format_created_at(mapper, connection, target):
+    target.created_at = target.created_at.strftime('%Y-%m-%d %H:%M:%S')
+    
+event.listen(User, 'load', format_created_at)
+    
