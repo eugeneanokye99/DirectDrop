@@ -1,55 +1,53 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Text, IconButton, VStack, HStack, Icon, Input, Button, Avatar, useColorModeValue, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from '@chakra-ui/react';
-import { FiMenu, FiSearch, FiFile, FiSettings, FiTrash2, FiLogOut } from 'react-icons/fi';
+import {
+  Box, Flex, Text, IconButton, VStack, HStack, Input, Button, Avatar,
+  useColorModeValue, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter,
+  AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure
+} from '@chakra-ui/react';
+import { FiMenu, FiSearch, FiFile, FiSettings, FiTrash2, FiLogOut, FiX } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-import { fetchUserData } from '../services/Api';
+import { fetchUserData } from '../services/api';
 
 const Home = () => {
   const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState('');
-  const [data, setData] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const cancelRef = React.useRef();
   const navigate = useNavigate();
   const toast = useToast();
+  const { isOpen: isLogoutDialogOpen, onOpen: onLogoutOpen, onClose: onLogoutClose } = useDisclosure();
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token) {
       setAccessToken(token);
+      fetchData(token);
     } else {
       navigate('/login');
     }
-
-    fetchData(token);
   }, [navigate]);
-
-  const onClose = () => setIsOpen(false);
-
-  const handleLogout = () => {
-    setIsOpen(true);
-  };
 
   const fetchData = async (token) => {
     try {
-      const data = await fetchUserData(token)
+      const data = await fetchUserData(token);
       setUser(data);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Something went wrong';
       console.error('Fetching user data failed:', errorMessage);
-      Alert.alert('Fetching user data Failed', errorMessage);
     }
   }
 
+  const handleLogout = () => {
+    onLogoutOpen();
+  };
+
   const confirmLogout = () => {
     setIsLoading(true);
-    // Remove the access token from local storage
     localStorage.removeItem('accessToken');
 
     setTimeout(() => {
       setIsLoading(false);
-      // Show success toast
       toast({
         title: 'Logout successful.',
         description: 'You have been logged out.',
@@ -57,54 +55,73 @@ const Home = () => {
         duration: 3000,
         isClosable: true,
       });
-      // Navigate to the login page
       navigate('/login');
-    }, 1000); // Simulate a delay for demonstration
+    }, 1000);
   };
 
   return (
-    <Flex h="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Flex h="100vh" bg={useColorModeValue('gray.100', 'gray.900')} flexDirection={{ base: 'column', md: 'row' }}>
+      {/* Sidebar Toggle Button */}
+      <IconButton
+        aria-label="Open sidebar"
+        icon={<FiMenu />}
+        onClick={onOpen}
+        display={{ base: 'flex', md: 'none' }}
+        position="absolute"
+        zIndex="1"
+        m={4}
+      />
+
       {/* Sidebar */}
-      <Box w="250px" bg={useColorModeValue('white', 'gray.800')} p={4} shadow="md">
+      <Box
+        w={{ base: 'full', md: '250px' }}
+        bg={useColorModeValue('white', 'gray.800')}
+        p={4}
+        shadow="md"
+        display={{ base: isOpen ? 'block' : 'none', md: 'block' }}
+        position={{ base: 'absolute', md: 'relative' }}
+        top={0}
+        left={0}
+        zIndex={1}
+      >
+        {/* Close Button */}
+        <IconButton
+          aria-label="Close sidebar"
+          icon={<FiX />}
+          onClick={onClose}
+          display={{ base: 'block', md: 'none' }}
+          mb={4}
+          variant="ghost"
+          float="right"
+        />
+
         {/* User Profile */}
         <Link to="/userprofile">
           <VStack spacing={3} align="start" mb={6}>
             <Avatar size="md" name="Freya Browning" src="https://bit.ly/dan-abramov" />
-            <Text fontSize="md" fontWeight="bold">{user.first_name}  {user.last_name}</Text>
+            <Text fontSize="md" fontWeight="bold">{user.first_name} {user.last_name}</Text>
             <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>{user.email}</Text>
           </VStack>
         </Link>
 
         <VStack align="start" spacing={4}>
           <Text fontSize="xl" fontWeight="bold">Project files</Text>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>
-            New document
-          </Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>
-            New spreadsheet
-          </Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>
-            New project
-          </Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>
-            New team
-          </Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiSettings />}>
-            Settings
-          </Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiLogOut />} onClick={handleLogout}>
-            Logout
-          </Button>
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>New document</Button>
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>New spreadsheet</Button>
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>New project</Button>
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>New team</Button>
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiSettings />}>Settings</Button>
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiLogOut />} onClick={handleLogout}>Logout</Button>
         </VStack>
       </Box>
 
       {/* Main Content */}
-      <Flex flex="1" direction="column" p={6}>
+      <Flex flex="1" direction="column" p={{ base: '4', md: '6' }} overflowY="auto" mt={{ base: '60px', md: '0' }}>
         {/* Top Navigation */}
         <HStack justify="space-between" mb={6}>
-          <Text fontSize="2xl" fontWeight="bold">Welcome to the Home Page</Text>
+          {/* <Text fontSize="2xl" fontWeight="bold">Welcome to the Home Page</Text> */}
           <HStack spacing={4}>
-            <Input placeholder="Search..." size="md" />
+            <Input placeholder="Search..." size="md" width={{ base: 'auto', md: '200px' }} />
             <IconButton icon={<FiSearch />} aria-label="Search" />
           </HStack>
         </HStack>
@@ -123,31 +140,17 @@ const Home = () => {
             {/* Add more file items here */}
           </VStack>
         </Box>
-
       </Flex>
 
       {/* Logout Confirmation Dialog */}
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isCentered
-      >
+      <AlertDialog isOpen={isLogoutDialogOpen} leastDestructiveRef={cancelRef} onClose={onLogoutClose} isCentered>
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Confirm Logout
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              Are you sure you want to log out? You will be redirected to the login page.
-            </AlertDialogBody>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">Confirm Logout</AlertDialogHeader>
+            <AlertDialogBody>Are you sure you want to log out? You will be redirected to the login page.</AlertDialogBody>
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme="blue" onClick={confirmLogout} ml={3} isLoading={isLoading}>
-                Logout
-              </Button>
+              <Button ref={cancelRef} onClick={onLogoutClose}>Cancel</Button>
+              <Button colorScheme="blue" onClick={confirmLogout} ml={3} isLoading={isLoading}>Logout</Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>

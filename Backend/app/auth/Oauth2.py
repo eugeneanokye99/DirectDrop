@@ -36,7 +36,7 @@ def verify_access_token(token:str, credentials_exception):
     return token_data
 
 
-def get_current_user(
+def get_user_id_from_token(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
 ):
     credentials_exception = HTTPException(

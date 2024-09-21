@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/Api';
+import { loginUser } from '../services/api';
 
 import {
   Box,

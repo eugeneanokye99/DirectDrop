@@ -75,32 +75,36 @@ async def login_user(
 
 
 @router.get("/user", response_model=UserResponse)
-async def user_data(
-    authorization: str = Header(...),  # Extract token from the Authorization header
-    db: Session = Depends(get_db)
-):
-    # Extract the token from the 'Authorization' header
-    token = authorization.replace("Bearer ", "")
-    logger.info(f"Received token: {token}")
+async def user_data(logged_in: User = Depends(get_user_id_from_token)):
+    return logged_in
 
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    token_data = get_user_id_from_token(token)
+# @router.get("/user", response_model=UserResponse)
+# async def user_data(
+#     authorization: str = Header(...),  # Extract token from the Authorization header
+#     db: Session = Depends(get_db)
+# ):
+#     # Extract the token from the 'Authorization' header
+#     token = authorization.replace("Bearer ", "")
+#     logger.info(f"Received token: {token}")
+
+#     credentials_exception = HTTPException(
+#         status_code=status.HTTP_401_UNAUTHORIZED,
+#         detail="Could not validate credentials",
+#         headers={"WWW-Authenticate": "Bearer"},
+#     )
+#     token_data = get_user_id_from_token(token)
     
-    user_id = token_data
+#     user_id = token_data
 
-    # Fetch user from the database
-    user = db.query(User).filter(User.id == user_id).first()
+#     # Fetch user from the database
+#     user = db.query(User).filter(User.id == user_id).first()
 
-    if not user:
-        logger.error(f"User with ID {user_id} not found")
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
+#     if not user:
+#         logger.error(f"User with ID {user_id} not found")
+#         raise HTTPException(
+#             status_code=status.HTTP_404_NOT_FOUND,
+#             detail="User not found"
+#         )
 
 
-    return user
+#     return user

@@ -7,6 +7,7 @@ const theme = extendTheme({
     heading: `'Space Grotesk', sans-serif`,  // Font for headings
     body: `'Space Grotesk', sans-serif`,   // Font for body text
   },
+ 
   // Additional theme customizations can go here
 });
 
