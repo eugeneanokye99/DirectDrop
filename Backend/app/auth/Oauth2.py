@@ -2,6 +2,11 @@ from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from app.core.config import settings
 from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, HTTPException, status
+from app.database.db import get_db
+from sqlalchemy.orm import Session
+from app.schemas.schemaresponse import TokenData
+from app.database.models import User
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -30,14 +35,29 @@ def verify_access_token(token:str, credentials_exception):
         raise credentials_exception
     return token_data
 
-def get_user_id_from_token(token: str):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id: str = payload.get("user_id")  
-        if user_id is None:
-            raise ValueError("User ID not found in token")
-        return user_id
-    except JWTError:
-        raise ValueError("Invalid token")
+
+def get_current_user(
+    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
+):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail=f"Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    token = verify_access_token(token, credentials_exception)
+
+    user = db.query(User).filter(User.id == token.id).first()
+    return user
+
+# def get_user_id_from_token(token: str):
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+#         user_id: str = payload.get("user_id")  
+#         if user_id is None:
+#             raise ValueError("User ID not found in token")
+#         return user_id
+#     except JWTError:
+#         raise ValueError("Invalid token")
 
 
