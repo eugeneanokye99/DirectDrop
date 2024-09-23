@@ -48,6 +48,8 @@ def get_user_id_from_token(
     token = verify_access_token(token, credentials_exception)
 
     user = db.query(User).filter(User.id == token.id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return user
 
 # def get_user_id_from_token(token: str):
