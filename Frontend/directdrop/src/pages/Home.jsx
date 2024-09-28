@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Text, IconButton, VStack, HStack, Icon, Input, Button, Avatar, useColorModeValue, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from '@chakra-ui/react';
-import { FiMenu, FiSearch, FiFile, FiSettings, FiTrash2, FiLogOut } from 'react-icons/fi';
+import { Box, Flex, Text, IconButton, VStack, HStack, Icon, Input, Button, Avatar, useColorModeValue, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
+import { FiPlus, FiSearch, FiFile, FiSettings, FiTrash2, FiLogOut, FiHome, FiTerminal, FiUsers, FiTrash } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchUserData } from '../services/Api';
 
@@ -76,18 +76,28 @@ const Home = () => {
         </Link>
 
         <VStack align="start" spacing={4}>
-          <Text fontSize="xl" fontWeight="bold">Project files</Text>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>
-            New document
+          
+          <Menu>
+            <MenuButton as={Button} leftIcon={<FiPlus />} variant="solid" w="full" justifyContent="start">
+              New
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => console.log('New File clicked')}>New File</MenuItem>
+              <MenuItem onClick={() => console.log('New Folder clicked')}>New Folder</MenuItem>
+            </MenuList>
+          </Menu>
+          <Text fontSize="xl" fontWeight="bold">DirectDrop</Text>
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiHome />}>
+            Home
           </Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>
-            New spreadsheet
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiUsers />}>
+            Shared with me
           </Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>
-            New project
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiUsers />}>
+            Spam
           </Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>
-            New team
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiTrash />}>
+            Trash
           </Button>
           <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiSettings />}>
             Settings
@@ -102,7 +112,7 @@ const Home = () => {
       <Flex flex="1" direction="column" p={6}>
         {/* Top Navigation */}
         <HStack justify="space-between" mb={6}>
-          <Text fontSize="2xl" fontWeight="bold">Welcome to the Home Page</Text>
+          <Text fontSize="2xl" fontWeight="bold">DirectDrop</Text>
           <HStack spacing={4}>
             <Input placeholder="Search..." size="md" />
             <IconButton icon={<FiSearch />} aria-label="Search" />
