@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 import {
   Box, Button, Flex, Grid, Heading, Image, Stack, Text, Icon, useColorModeValue, Divider,
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
@@ -6,28 +7,27 @@ import {
 } from '@chakra-ui/react';
 import { PencilIcon, ShareIcon, DocumentIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
 import { motion } from 'framer-motion';
-import { fetchUserData, updateUserData } from '../services/Api';
+import { fetchUserData, updateUserData } from '../services/api';
 import { Link, useNavigate } from 'react-router-dom';
 
 const MotionButton = motion(Button);
 
 const UserProfile = () => {
   const [accessToken, setAccessToken] = useState('');
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
   const toast = useToast();
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = Cookies.get('accessToken');
     if (token) {
       setAccessToken(token);
+      fetchData(token);
     } else {
       navigate('/login');
     }
-
-    fetchData(token);
   }, [navigate]);
 
   const fetchData = async (token) => {
@@ -35,7 +35,7 @@ const UserProfile = () => {
       const data = await fetchUserData(token);
       setUser(data);
       setFormData({
-        firstName: data.first_name ,
+        firstName: data.first_name,
         lastName: data.last_name,
         email: data.email,
         bio: data.bio,
@@ -46,6 +46,8 @@ const UserProfile = () => {
       alert('Fetching user data Failed: ' + errorMessage);
     }
   };
+
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,25 +65,30 @@ const UserProfile = () => {
         duration: 5000,
         isClosable: true,
       });
-      if(data.message == 'User update successful'){
+      if (data.message === 'User update successful') {
+        setUser({ 
+          ...user, // Keep existing user data
+          first_name: firstName, 
+          last_name: lastName, 
+          email, 
+          bio 
+        });
         onClose();
       }
-  } catch (error) {
-    toast({
-      title: 'Update failed.',
-      description: error.response ? error.response.data.message : 'An error occurred',
-      status: 'error',
-      duration: 2000,
-      isClosable: true,
-    });
-  }
+    } catch (error) {
+      toast({
+        title: 'Update failed.',
+        description: error.response ? error.response.data.message : 'An error occurred',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   const userInfo = {
-    email: 'eugene@anokye.com',
     status: 'Online',
     reputation: '4.8 / 5',
-    bio: 'Software Engineer passionate about full-stack development and AI.',
     uploadedFiles: [
       { name: 'Project Report.pdf', size: '1.2MB', date: '2024-09-12', downloads: 12, status: 'Public' },
       { name: 'Vacation Photos.zip', size: '45MB', date: '2024-08-22', downloads: 5, status: 'Private' },
@@ -99,7 +106,7 @@ const UserProfile = () => {
       <Box maxW="6xl" mx="auto" p="8">
         <Flex direction="column" align="center" mb="8">
           <Image
-            src={userInfo.profilePicture}
+            src={user.profilePicture} // Make sure user object contains profilePicture
             alt="Profile"
             borderRadius="full"
             boxSize="150px"
@@ -108,27 +115,26 @@ const UserProfile = () => {
             border="4px solid"
             borderColor={useColorModeValue('gray.800')}
           />
-          <Heading size="lg" color='grey.500'>{user.first_name}  {user.last_name}</Heading>
+          <Heading size="lg" color='grey.500'>{user.first_name} {user.last_name}</Heading>
           <Text fontSize="lg" color="grey" mt="1">
-          {user.email} &bull;{' '}
+            {user.email} &bull;{' '}
             <Text as="span" color={statusColor} fontWeight="bold">
               {userInfo.status}
             </Text>
           </Text>
           <Box
-             bg={useColorModeValue('yellow.600')}    
-             borderRadius='lg'
-              paddingTop='1'
-              paddingBottom='2'
-              paddingRight='5'
-              paddingLeft='5'
-              marginTop='2'
+            bg={useColorModeValue('yellow.600')}
+            borderRadius='lg'
+            paddingTop='1'
+            paddingBottom='2'
+            paddingRight='5'
+            paddingLeft='5'
+            marginTop='2'
           >
-          <Text fontSize='small' color="white" mt="2">
-            Reputation: {userInfo.reputation}
-          </Text>
+            <Text fontSize='small' color="white" mt="2">
+              Reputation: {userInfo.reputation}
+            </Text>
           </Box>
-         
         </Flex>
 
         {/* Edit Profile Modal */}
@@ -242,34 +248,8 @@ const UserProfile = () => {
                     <Text color="gray.600" fontWeight="semibold">Downloads</Text>
                     <Text color="blue.600" fontWeight="bold">{file.downloads}</Text>
                   </Flex>
-                  <Flex justify="space-between">
-                    <Text color="gray.600" fontWeight="semibold">Status</Text>
-                    <Box
-                    bg={useColorModeValue('orange.800')}
-                    padding='2'
-                    borderRadius='lg'
-                    >
-                    <Text color="white" fontSize='smaller' fontWeight="bold">{file.status}</Text>
-                    </Box>
-                  </Flex>
-                  {index < userInfo.uploadedFiles.length - 1 && (
-                    <Divider my="4" borderColor="black" />
-                  )}
                 </Box>
               ))}
-
-                <Flex justify="center" p="4">
-                  <MotionButton
-                    variant="link"
-                    rightIcon={<Icon as= {ArrowRightIcon} boxSize='4' />}
-                     color="grey.700"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    See more
-                  </MotionButton>
-                </Flex>
             </Box>
           </Box>
 
@@ -277,9 +257,9 @@ const UserProfile = () => {
             borderWidth="1px"
             borderRadius="lg"
             overflow="hidden"
+            borderColor={useColorModeValue('gray.800')}
             shadow="md"
             transition="all 0.2s"
-            borderColor={useColorModeValue('gray.800')}
             _hover={{ shadow: 'lg' }}
           >
             <Flex
@@ -308,36 +288,8 @@ const UserProfile = () => {
                     <Text color="gray.600" fontWeight="semibold">From</Text>
                     <Text color="blue.600" fontWeight="bold">{file.from}</Text>
                   </Flex>
-                  <Flex justify="space-between">
-                    
-                    <Text color="gray.600" fontWeight="semibold">Status</Text>
-                    <Box
-                     bg={useColorModeValue('orange.800')}
-                      padding='2'
-                      borderRadius='lg'
-                    
-                    >
-                    <Text color="white" fontSize='smaller' fontWeight="bold">{file.status}</Text>
-                    </Box>
-                  </Flex>
-                 
-                  {index < userInfo.sharedWithMe.length - 1 && (
-                    <Divider my="4" borderColor="black" />
-                  )}
                 </Box>
               ))}
-                 <Flex justify="center" p="4">
-                  <MotionButton
-                    variant="link"
-                    rightIcon={<Icon as= {ArrowRightIcon} boxSize='4' />}
-                    color="grey.700"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    See more
-                  </MotionButton>
-                </Flex>
             </Box>
           </Box>
         </Grid>

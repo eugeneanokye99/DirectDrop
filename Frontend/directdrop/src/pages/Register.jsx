@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { registerUser } from '../services/Api';
+import { registerUser } from '../services/api';
 
 import {
   Box,

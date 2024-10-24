@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/Api';
-
+import { loginUser, verifyToken } from '../services/api'; // Assuming you have an API to verify token
+import Cookies from 'js-cookie';
 import {
   Box,
   Button,
@@ -20,31 +20,52 @@ const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
-    // Check if access token is already stored and redirect to home
-    useEffect(() => {
-      const accessToken = localStorage.getItem('accessToken');
-      if (accessToken) {
-        navigate('/home');
+  // Function to check if token is valid
+  const checkTokenValidity = async () => {
+    const token = Cookies.get('accessToken');
+    if (token) {
+      try {
+        // Assume `verifyToken` is an API function to check token validity
+        const isValid = await verifyToken(token);
+        if (!isValid) {
+          // Token is invalid or expired
+          Cookies.remove('accessToken'); // Remove the token if expired
+          navigate('/login'); // Redirect to login page
+        } else {
+          // Token is valid, redirect to home
+          navigate('/home');
+        }
+      } catch (error) {
+        // Handle any error that occurred during token verification
+        console.error("Token verification failed:", error);
+        Cookies.remove('accessToken'); // Remove token if any error
+        navigate('/login'); // Redirect to login
       }
-    }, [navigate]);
+    }
+  };
+
+  // Check token validity on page load
+  useEffect(() => {
+    checkTokenValidity();
+  }, [navigate]);
 
   const handleLogin = async () => {
     try {
-        const data = await loginUser(email, password);
-        toast({
-          title: data.message,
-          description: "You're logged in.",
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-        if(data.message == 'Login successful'){
-          // Store the access token in local storage
-          localStorage.setItem('accessToken', data.access_token);
+      const data = await loginUser(email, password);
+      toast({
+        title: data.message,
+        description: "You're logged in.",
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      if (data.message === 'Login successful') {
+        // Store the access token in cookies
+        Cookies.set('accessToken', data.access_token, { expires: 2 }); // Set cookie to expire in 2 hours
         
-          // Navigate to the home page
-          navigate('/home');
-        }
+        // Navigate to the home page
+        navigate('/home');
+      }
     } catch (error) {
       toast({
         title: 'Login failed.',
