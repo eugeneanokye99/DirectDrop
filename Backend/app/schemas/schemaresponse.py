@@ -31,6 +31,14 @@ class UserUpdate(BaseModel):
     class Config:
         from_attribute = True
 
+class UserUpdateResponse(BaseModel):
+    message: str
+    user: UserUpdate
+
+class UserUpdateResponse(BaseModel):
+    message: str
+    user: UserUpdate
+
 
 class UserResponse(BaseModel):
     id: int
@@ -40,6 +48,7 @@ class UserResponse(BaseModel):
     created_at: str
     is_verified: bool
     is_admin: bool
+    bio: str
     bio: str
     
     class Config:
