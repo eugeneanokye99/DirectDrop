@@ -42,6 +42,7 @@ export const fetchUserData = async (token) => {
     const response = await api.get('/user', {
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
     });
     return response.data;
@@ -68,6 +69,16 @@ export const updateUserData = async (token, first_name, last_name, bio, email) =
       }
     );
     return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};
+
+// Function to verify if the token is valid
+export const verifyToken = async (token) => {
+  try {
+    const response = await api.post('/token/verify', { token }); // Send the token for verification
+    return response.data.isValid; // Assuming the API returns isValid as true or false
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }

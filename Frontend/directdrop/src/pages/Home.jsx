@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie'; // Import Cookies library
 import {
   Box, Flex, Text, IconButton, VStack, HStack, Input, Button, Avatar,
   useColorModeValue, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter,
@@ -9,8 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { fetchUserData } from '../services/api';
 
 const Home = () => {
-  const [accessToken, setAccessToken] = useState('');
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const cancelRef = React.useRef();
@@ -19,9 +19,8 @@ const Home = () => {
   const { isOpen: isLogoutDialogOpen, onOpen: onLogoutOpen, onClose: onLogoutClose } = useDisclosure();
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = Cookies.get('accessToken'); // Get the token from cookies
     if (token) {
-      setAccessToken(token);
       fetchData(token);
     } else {
       navigate('/login');
@@ -30,13 +29,13 @@ const Home = () => {
 
   const fetchData = async (token) => {
     try {
-      const data = await fetchUserData(token);
+      const data = await fetchUserData(token); // Use the token from cookies
       setUser(data);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Something went wrong';
       console.error('Fetching user data failed:', errorMessage);
     }
-  }
+  };
 
   const handleLogout = () => {
     onLogoutOpen();
@@ -44,7 +43,7 @@ const Home = () => {
 
   const confirmLogout = () => {
     setIsLoading(true);
-    localStorage.removeItem('accessToken');
+    Cookies.remove('accessToken'); // Remove the token from cookies
 
     setTimeout(() => {
       setIsLoading(false);
@@ -99,8 +98,12 @@ const Home = () => {
         <Link to="/userprofile">
           <VStack spacing={3} align="start" mb={6}>
             <Avatar size="md" name="Freya Browning" src="https://bit.ly/dan-abramov" />
-            <Text fontSize="md" fontWeight="bold">{user.first_name} {user.last_name}</Text>
-            <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>{user.email}</Text>
+            {user && (
+              <>
+                <Text fontSize="md" fontWeight="bold">{user.first_name} {user.last_name}</Text>
+                <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>{user.email}</Text>
+              </>
+            )}
           </VStack>
         </Link>
 
@@ -117,16 +120,13 @@ const Home = () => {
 
       {/* Main Content */}
       <Flex flex="1" direction="column" p={{ base: '4', md: '6' }} overflowY="auto" mt={{ base: '60px', md: '0' }}>
-        {/* Top Navigation */}
         <HStack justify="space-between" mb={6}>
-          {/* <Text fontSize="2xl" fontWeight="bold">Welcome to the Home Page</Text> */}
           <HStack spacing={4}>
             <Input placeholder="Search..." size="md" width={{ base: 'auto', md: '200px' }} />
             <IconButton icon={<FiSearch />} aria-label="Search" />
           </HStack>
         </HStack>
 
-        {/* Content */}
         <Box bg={useColorModeValue('white', 'gray.800')} p={4} shadow="md" borderRadius="md">
           <Text fontSize="lg" mb={4}>Recently modified</Text>
           <VStack align="start" spacing={4}>
@@ -137,7 +137,6 @@ const Home = () => {
                 <IconButton icon={<FiTrash2 />} aria-label="Delete file" size="sm" />
               </HStack>
             </HStack>
-            {/* Add more file items here */}
           </VStack>
         </Box>
       </Flex>

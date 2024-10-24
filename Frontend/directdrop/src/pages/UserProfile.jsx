@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 import {
   Box, Button, Flex, Grid, Heading, Image, Stack, Text, Icon, useColorModeValue, Divider,
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
@@ -20,7 +21,7 @@ const UserProfile = () => {
   const toast = useToast();
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = Cookies.get('accessToken');
     if (token) {
       setAccessToken(token);
       fetchData(token);
@@ -45,6 +46,8 @@ const UserProfile = () => {
       alert('Fetching user data Failed: ' + errorMessage);
     }
   };
+
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
