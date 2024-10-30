@@ -25,4 +25,10 @@ router = APIRouter(
 
 @router.get("/user", response_model=UserResponse)
 async def user_data(logged_in: User = Depends(get_user_id_from_token)):
-    return logged_in
+    # Return user details only
+    return UserResponse(
+        id=logged_in.id,
+        first_name=logged_in.first_name,
+        last_name=logged_in.last_name,
+        email=logged_in.email
+    )

@@ -14,9 +14,9 @@ const api = axios.create({
 export const loginUser = async (email, password) => {
   try {
     const response = await api.post('/login', { email, password });
-    return response.data; // Return the response data
+    return response.data;
   } catch (error) {
-    throw error.response ? error.response.data : error.message; // Handle and throw the error
+    throw error.response ? error.response.data : error.message;
   }
 };
 
@@ -30,7 +30,7 @@ export const registerUser = async (first_name, last_name, email, bio, password) 
       bio,
       password,
     });
-    return response.data; // Return the response data
+    return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
@@ -69,16 +69,6 @@ export const updateUserData = async (token, first_name, last_name, bio, email) =
       }
     );
     return response.data;
-  } catch (error) {
-    throw error.response ? error.response.data : error.message;
-  }
-};
-
-// Function to verify if the token is valid
-export const verifyToken = async (token) => {
-  try {
-    const response = await api.post('/token/verify', { token }); // Send the token for verification
-    return response.data.isValid; // Assuming the API returns isValid as true or false
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }

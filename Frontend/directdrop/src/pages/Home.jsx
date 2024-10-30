@@ -30,7 +30,7 @@ const Home = () => {
   const fetchData = async (token) => {
     try {
       const data = await fetchUserData(token); // Use the token from cookies
-      setUser(data);
+      setUser(data); // Set user data in state
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Something went wrong';
       console.error('Fetching user data failed:', errorMessage);
@@ -97,12 +97,14 @@ const Home = () => {
         {/* User Profile */}
         <Link to="/userprofile">
           <VStack spacing={3} align="start" mb={6}>
-            <Avatar size="md" name="Freya Browning" src="https://bit.ly/dan-abramov" />
-            {user && (
+            <Avatar size="md" name={user ? `${user.first_name} ${user.last_name}` : 'User Avatar'} src="https://bit.ly/dan-abramov" />
+            {user ? (
               <>
                 <Text fontSize="md" fontWeight="bold">{user.first_name} {user.last_name}</Text>
                 <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>{user.email}</Text>
               </>
+            ) : (
+              <Text fontSize="md">Loading user data...</Text>
             )}
           </VStack>
         </Link>

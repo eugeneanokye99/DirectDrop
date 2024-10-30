@@ -16,6 +16,9 @@ import Register from './pages/Register.jsx';
 import UserProfile  from './pages/UserProfile.jsx';
 import Home  from './pages/Home.jsx';
 import theme from './theme.js'
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import { AuthProvider } from './contexts/AuthContext.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -42,7 +45,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <Home />,
+    element: <ProtectedRoute />, // Protect the Home route
+    children: [{ path: "", element: <Home /> }],
     errorElement: <ErrorPage />,
     
   },
@@ -53,7 +57,10 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ChakraProvider theme={theme}>
-    <RouterProvider router={router} />
+      <AuthProvider>
+      <RouterProvider router={router} />
+      </AuthProvider>
+   
     </ChakraProvider>
   </StrictMode>,
 )
