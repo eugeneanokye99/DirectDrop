@@ -1,6 +1,7 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, validator, PrivateAttr, Field
 from typing import List, Optional
 from datetime import datetime
+import humanize
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -49,7 +50,7 @@ class UserResponse(BaseModel):
     is_verified: bool
     is_admin: bool
     bio: str
-    bio: str
+  
     
     class Config:
         from_attributes = True
@@ -60,3 +61,33 @@ class UserResponse(BaseModel):
         obj_dict = super().from_orm(obj).dict()
         obj_dict['created_at'] = obj.created_at.strftime('%Y-%m-%d %H:%M:%S')
         return obj_dict
+
+
+class FileUploadResponse(BaseModel):
+    id: int
+    user_id: int
+    uploaded_by: str  # Add this field to include the uploader's name
+    filename: str
+    file_size: str
+ 
+    class Config:
+        from_attributes = True
+    
+class FilesDisplayResponse(BaseModel):
+    id: int
+    uploaded_by : str
+    filename: str
+    file_size: str
+    upload_date: datetime = Field(default_factory=datetime.now, exclude=True) # Store original date as datetime
+    time_ago: str = None # Provide a default value
+    
+    @validator("time_ago", pre=True, always=True)
+    def calculate_time_ago(cls, _, values):
+        upload_date = values.get("upload_date")
+        if upload_date and isinstance(upload_date, datetime):
+            return humanize.naturaltime(datetime.now() - upload_date)
+        return "just now"  
+    
+    class Config:
+        from_attributes = True
+    
