@@ -8,7 +8,7 @@ from fastapi import (
     Header
 )
 from app.database.models import User
-from app.schemas.schemaresponse import UserUpdate
+from app.schemas.schemaresponse import UserUpdate, UserUpdateResponse
 from app.auth.Oauth2 import get_user_id_from_token
 from app.database.db import get_db
 from sqlalchemy.orm import Session
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["Update User Profile"])
 
-@router.put("/updateprofile", response_model=UserUpdate)
+@router.put("/updateprofile", response_model=UserUpdateResponse)
 async def update_user(
     user_update : UserUpdate,
     db : Session = Depends(get_db),
@@ -37,12 +37,21 @@ async def update_user(
         user.last_name = user_update.last_name
     if user_update.bio:
         user.bio = user_update.bio
+    if user_update.email:
+        user.email = user_update.email
         
     db.commit()
     db.refresh(user)
     
-    return user
-
+    return {
+        "message": "User update successful",
+        "user": {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "bio": user.bio,
+            "email": user.email
+        }
+    }
         
 
 # @router.put('/updateprofile', response_model=UserUpdate)

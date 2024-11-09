@@ -23,11 +23,10 @@ class TokenData(BaseModel):
     id: Optional[int] = None
     
 class UserUpdate(BaseModel):
-    first_name: Optional[str] = None
-    last_name:Optional[str] = None
-    bio: Optional[str] = None
-    
-    # email: str
+    first_name: str
+    last_name:str
+    bio: str
+    email: EmailStr
     
     class Config:
         from_attribute = True

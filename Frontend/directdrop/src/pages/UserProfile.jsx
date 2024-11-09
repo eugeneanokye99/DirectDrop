@@ -58,6 +58,7 @@ const UserProfile = () => {
     try {
       const { firstName, lastName, email, bio } = formData;
       const data = await updateUserData(accessToken, firstName, lastName, bio, email);
+      console.log(data)
       toast({
         title: data.message,
         description: "You have successfully updated your profile",
@@ -74,6 +75,7 @@ const UserProfile = () => {
           bio 
         });
         onClose();
+        window.location.reload();
       }
     } catch (error) {
       toast({
