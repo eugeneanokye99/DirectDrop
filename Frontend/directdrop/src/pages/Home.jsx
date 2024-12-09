@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie'; // Import Cookies library
+import React, { useEffect, useState, useRef } from 'react';
+import Cookies from 'js-cookie';
 import {
   Box, Flex, Text, IconButton, VStack, HStack, Input, Button, Avatar,
   useColorModeValue, useToast, AlertDialog, AlertDialogBody, AlertDialogFooter,
-  AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure
+  AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure,
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter,
+  ModalBody, ModalCloseButton,
 } from '@chakra-ui/react';
-import { FiMenu, FiSearch, FiFile, FiSettings, FiTrash2, FiLogOut, FiX } from 'react-icons/fi';
+import { FiMenu, FiSearch, FiFile, FiSettings, FiTrash2, FiLogOut, FiX, FiUpload } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchUserData } from '../services/api';
+
+
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -17,20 +21,66 @@ const Home = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { isOpen: isLogoutDialogOpen, onOpen: onLogoutOpen, onClose: onLogoutClose } = useDisclosure();
+  const { isOpen: isModalOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
+  const [peerConnection, setPeerConnection] = useState(null);
+  const [recipient, setRecipient] = useState('');
+  const [file, setFile] = useState(null);
+  const fileInputRef = useRef();
+  const signalingServer = useRef(null);
+  const peerConnectionRef = useRef(null);
 
   useEffect(() => {
-    const token = Cookies.get('accessToken'); // Get the token from cookies
+    const token = Cookies.get('accessToken');
     if (token) {
       fetchData(token);
     } else {
       navigate('/login');
     }
+
+    // Initialize RTCPeerConnection
+    if (!peerConnectionRef.current) {
+      peerConnectionRef.current = new RTCPeerConnection();
+      peerConnectionRef.current.onicecandidate = (event) => {
+        console.log('ICE Candidate:', event.candidate);
+      };
+      peerConnectionRef.current.onconnectionstatechange = () => {
+        console.log('Connection state:', peerConnectionRef.current.connectionState);
+      };
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (peerConnectionRef.current) {
+        peerConnectionRef.current.close();
+        peerConnectionRef.current = null;
+      }
+    };
   }, [navigate]);
 
+  useEffect(() => {
+    // Initialize WebSocket connection
+    if (user?.email && !signalingServer.current) {
+      signalingServer.current = new WebSocket(`ws://127.0.0.1:8000/ws/${user.email}`);
+      signalingServer.current.onopen = () => console.log('WebSocket connection established');
+      signalingServer.current.onclose = () => signalingServer.current = null;
+      signalingServer.current.onerror = (error) => console.error('WebSocket error:', error);
+      signalingServer.current.onmessage = handleMessage;
+    }
+
+    // Cleanup WebSocket on unmount
+    return () => {
+      if (signalingServer.current) {
+        signalingServer.current.close();
+        signalingServer.current = null;
+      }
+    };
+  }, [user]);
+
+  
   const fetchData = async (token) => {
     try {
-      const data = await fetchUserData(token); // Use the token from cookies
-      setUser(data); // Set user data in state
+      const data = await fetchUserData(token);
+      setUser(data);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Something went wrong';
       console.error('Fetching user data failed:', errorMessage);
@@ -43,7 +93,7 @@ const Home = () => {
 
   const confirmLogout = () => {
     setIsLoading(true);
-    Cookies.remove('accessToken'); // Remove the token from cookies
+    Cookies.remove('accessToken');
 
     setTimeout(() => {
       setIsLoading(false);
@@ -57,6 +107,58 @@ const Home = () => {
       navigate('/login');
     }, 1000);
   };
+  const handleFileChange = (event) => setFile(event.target.files[0]);
+
+  const handleUpload = () => {
+    if (!recipient || !file) {
+      toast({
+        title: 'Error',
+        description: 'Please fill in all fields and select a file.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    const dataChannel = peerConnectionRef.current.createDataChannel('fileTransfer');
+    dataChannel.onopen = () => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        dataChannel.send(e.target.result);
+        toast({
+          title: 'File Sent',
+          description: `File successfully sent to ${recipient}.`,
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      };
+      reader.readAsArrayBuffer(file);
+    };
+
+    peerConnectionRef.current.createOffer().then((offer) => {
+      peerConnectionRef.current.setLocalDescription(offer);
+      signalingServer.current.send(JSON.stringify({ type: 'offer', email: recipient, offer }));
+    });
+  };
+
+  const handleMessage = (event) => {
+    const { type, offer, sender, answer } = JSON.parse(event.data);
+
+    if (type === 'offer') {
+      peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(offer));
+      peerConnectionRef.current.createAnswer().then((answer) => {
+        peerConnectionRef.current.setLocalDescription(answer);
+        signalingServer.current.send(JSON.stringify({ type: 'answer', email: sender, answer }));
+      });
+    }
+
+    if (type === 'answer') {
+      peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(answer));
+    }
+  };
+
 
   return (
     <Flex h="100vh" bg={useColorModeValue('gray.100', 'gray.900')} flexDirection={{ base: 'column', md: 'row' }}>
@@ -112,16 +214,16 @@ const Home = () => {
         <VStack align="start" spacing={4}>
           <Text fontSize="xl" fontWeight="bold">Project files</Text>
           <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>New document</Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>New spreadsheet</Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>New project</Button>
-          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiFile />}>New team</Button>
+          <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiUpload />} onClick={openModal}>
+            Upload File
+          </Button>
           <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiSettings />}>Settings</Button>
           <Button variant="ghost" w="full" justifyContent="start" leftIcon={<FiLogOut />} onClick={handleLogout}>Logout</Button>
         </VStack>
       </Box>
 
-      {/* Main Content */}
-      <Flex flex="1" direction="column" p={{ base: '4', md: '6' }} overflowY="auto" mt={{ base: '60px', md: '0' }}>
+       {/* Main Content */}
+       <Flex flex="1" direction="column" p={{ base: '4', md: '6' }} overflowY="auto" mt={{ base: '60px', md: '0' }}>
         <HStack justify="space-between" mb={6}>
           <HStack spacing={4}>
             <Input placeholder="Search..." size="md" width={{ base: 'auto', md: '200px' }} />
@@ -142,6 +244,35 @@ const Home = () => {
           </VStack>
         </Box>
       </Flex>
+
+
+      {/* File Upload Modal */}
+      <Modal isOpen={isModalOpen} onClose={closeModal} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Upload File</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <VStack spacing={4}>
+              <Input
+                placeholder="Recipient Email"
+                value={recipient}
+                onChange={(e) => setRecipient(e.target.value)}
+              />
+              <Input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+              />
+            </VStack>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={handleUpload}>
+              Send File
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       {/* Logout Confirmation Dialog */}
       <AlertDialog isOpen={isLogoutDialogOpen} leastDestructiveRef={cancelRef} onClose={onLogoutClose} isCentered>
